@@ -378,11 +378,11 @@ Conclusão final para o bloco:
 
 ### Workload escolhido
 
-Workload: Benchmark interno do 7-Zip (`7z b`)
+Workload: `workload_completo.py`
 
 ### Observação importante
 
-O script `workload_completo.py` não estava disponível no diretório `~/infra_hw/scripts` e também não foi encontrado no repositório disponibilizado pelo professor. Por isso, o workload integrado da atividade foi substituído pelo benchmark interno do 7-Zip, `7z b`. Essa substituição foi necessária para viabilizar a etapa de profiling e síntese com um workload real e reproduzível.
+O script `workload_completo.py` não estava inicialmente disponível na pasta `~/infra_hw/scripts`, embora fosse o workload indicado para a atividade. Depois que o script foi obtido e colocado manualmente na pasta correta, ele passou a ser executado no ambiente virtual (`.venv`) e se tornou o workload oficial usado neste bloco. Por isso, a versão final da análise deve considerar este script como referência principal, substituindo o uso anterior do benchmark `7z b`.
 
 ### Métricas integradas
 
@@ -390,57 +390,58 @@ O script `workload_completo.py` não estava disponível no diretório `~/infra_h
 |------------|---------|--------------|
 | CPU | IPC | N/D no WSL2 (`cycles` e `instructions` não suportados pelo `perf`) |
 | Cache | Taxa de miss (%) | N/D no WSL2 (`cache-references` e `cache-misses` não suportados pelo `perf`) |
-| Memória virtual | Page faults / s | ~22637 page faults/s |
-| Armazenamento | Throughput | 1461 MiB/s sequencial; 16.2 MiB/s RND4K |
-| Multicore | Threads em uso | 12 threads |
-| PCIe | Saturação | ~18.5% do link PCIe do SSD |
+| Memória virtual | Page faults / s | ~247 page faults/s |
+| Armazenamento | Throughput | 89.75 MB/s |
+| Multicore | Threads em uso | 0/12 núcleos > 50% no fim do snapshot |
+| PCIe | Saturação | ~1.14% do link PCIe do SSD |
 
 ### No formato do novo modelo
 
 | Workload (`workload_completo.py`) | Resultado |
 |-----------------------------------|-----------|
-| CPU-bound — multiplicações/s | Não disponível, pois o script original não existia no ambiente |
-| Memory-bound — bandwidth (GB/s) | Não disponível, pois o script original não existia no ambiente |
-| I/O-bound — throughput (MB/s) | Não disponível, pois o script original não existia no ambiente |
-| Cores >50% no fim | 12 threads em uso no `7z b` |
+| CPU-bound — multiplicações/s | 530.55 |
+| Memory-bound — bandwidth (GB/s) | 14.80 GB/s |
+| I/O-bound — throughput (MB/s) | 89.75 MB/s |
+| Cores >50% no fim | 0/12 |
 
-**Gargalo dominante (segundo o script):** Não aplicável, pois o script original não estava disponível. A análise foi feita com base no `7z b` e nas medições integradas dos blocos anteriores.
+**Gargalo dominante (segundo o script):** I/O / armazenamento
 
 **Você concorda? Justifique:**
 
-Como o `workload_completo.py` não existia no ambiente, a análise foi feita com o benchmark `7z b` combinada com as medições anteriores de RAM, SSD e PCIe. Os dados indicam que o gargalo dominante da máquina tende a estar mais em armazenamento e memória do que no barramento PCIe. A RAM mediu cerca de 13.0 GB/s, o link PCIe do NVMe tem teto teórico de aproximadamente 7.88 GB/s, mas o SSD entregou apenas 1461 MiB/s no sequencial e 16.2 MiB/s no RND4K, o que mostra que o barramento não era o principal limitador.
+Sim. O próprio script apontou o armazenamento como subsistema mais fraco, porque a fase I/O-bound ficou em apenas `89.75 MB/s`, muito abaixo da fase memory-bound, que atingiu `14.80 GB/s`. Além disso, o script emitiu alerta explícito de disco lento. A fase CPU-bound também apresentou uso alto de CPU (`99.9%`) e throughput consistente, então o ponto mais fraco desse workload específico foi claramente a parte de I/O.
 
 ### Hipóteses revisitadas
 
 | Hipótese inicial | Status | Evidência |
 |------------------|--------|-----------|
-| Desempenho de CPU em workload multithread | Confirmada | `7z b` usou 12 threads e mostrou forte uso de CPU, com 24031 MIPS totais e tempo de CPU acumulado muito acima do tempo real no `perf` |
-| Largura de banda e latência da RAM | Confirmada | RAM medida em ~13.0 GB/s e latência estimada em ~132.6 ns; sob pressão, houve uso de swap e piora clara de desempenho |
-| Desempenho do armazenamento (sequencial vs aleatório) | Confirmada | O SSD mediu 1461 MiB/s no sequencial e 16.2 MiB/s no RND4K, mostrando forte diferença entre padrões de acesso |
-| Eficiência da hierarquia de cache | Parcial | O acesso sequencial foi melhor que o acesso saltando, e o workload do 7-Zip depende de CPU e cache; porém o WSL2 não expôs `cache-misses` diretamente |
-| Capacidade do barramento/PCIe e impacto no I/O | Parcial | O NVMe foi identificado como PCIe 4.0 x4, com link teórico de aproximadamente 7.88 GB/s, mas banda real de apenas cerca de 1.46 GiB/s, mostrando que o PCIe não era o gargalo primário do SSD |
+| Desempenho de CPU em workload multithread | Parcial | O `workload_completo.py` exerceu fortemente a CPU na fase CPU-bound (`99.9%` de uso), mas o snapshot final mostrou `0/12` núcleos acima de 50%, e o próprio script indicou que há paralelismo a explorar. Assim, a CPU foi bem exercitada, mas o workload não saturou os núcleos como um teste fortemente multithread faria. |
+| Largura de banda e latência da RAM | Confirmada | A fase memory-bound atingiu `14.80 GB/s`, valor coerente com a banda de RAM já observada anteriormente, mostrando que a memória principal teve desempenho saudável. |
+| Desempenho do armazenamento (sequencial vs aleatório) | Confirmada | No workload integrado, a fase I/O-bound ficou em `89.75 MB/s`, bem abaixo da memória. Somando isso aos testes anteriores com `fio` (`1532 MB/s` sequencial e `4157 IOPS` em 4K aleatório), fica claro que o armazenamento continua sendo uma fonte importante de limitação dependendo do padrão de acesso. |
+| Eficiência da hierarquia de cache | Parcial | A fase CPU-bound foi descrita como operação com dados pequenos que cabem em cache, e a fase memory-bound saiu deliberadamente de qualquer L3. Isso sustenta a importância da hierarquia de cache, mas o WSL2 não expôs `cache-misses` diretamente no `perf`. |
+| Capacidade do barramento/PCIe e impacto no I/O | Parcial | O SSD continua ligado em PCIe 4.0 x4, com teto teórico de aproximadamente `7.88 GB/s`, mas no workload integrado a fase I/O ficou em apenas `89.75 MB/s`, o que mostra que o gargalo não era o barramento PCIe e sim a forma de acesso ao armazenamento no teste. |
 
-### Perguntas-síntese (valem nota)
+### Perguntas-síntese
 
 **1. Qual é o gargalo dominante da minha máquina? Justifique com 3 métricas medidas.**
 
-O gargalo dominante da máquina, no cenário analisado, tende a estar mais em armazenamento e memória, não no link PCIe. A primeira evidência é que o SSD entregou apenas 1461 MiB/s no sequencial, muito abaixo da RAM medida em ~13.0 GB/s. A segunda é que no acesso aleatório o SSD caiu para 16.2 MiB/s, mostrando forte sensibilidade a padrão de acesso. A terceira é que, sob pressão de memória, houve uso real de swap, com `page faults/s ~22637` no workload e evidência anterior de swap-out, mostrando que sair da RAM degrada muito o desempenho. Assim, o caminho mais fraco do sistema não foi a CPU bruta nem o barramento PCIe, mas principalmente o custo de acesso fora da RAM e o comportamento do armazenamento.
+No workload integrado, o gargalo dominante foi o armazenamento. A primeira evidência é que a fase I/O-bound ficou em apenas `89.75 MB/s`. A segunda é que a fase memory-bound chegou a `14.80 GB/s`, muito acima do I/O. A terceira é que a saturação do link PCIe do SSD ficou em apenas cerca de `1.14%`, mostrando que o barramento não era o limite. Assim, neste workload, o subsistema mais fraco foi claramente o de armazenamento.
 
 **2. Onde investir R$ 500 em upgrade? Defesa técnica.**
 
-Eu investiria primeiro em mais RAM. Tecnicamente, isso se justifica porque a RAM já entrega ~13.0 GB/s, enquanto o SSD ficou em 1461 MiB/s no sequencial e muito pior no aleatório. Além disso, quando houve pressão de memória, apareceu swap, e sabemos que cair para swap implica penalidade de ordens de grandeza em relação à RAM. Como o NVMe já está ligado em PCIe 4.0 x4, o problema não parece ser falta de barramento, e sim o fato de que armazenamento continua muito mais lento que memória. Portanto, aumentar a RAM reduziria a chance de paginação e manteria mais dados dentro da parte rápida da hierarquia.
+Eu continuaria priorizando mais RAM como upgrade mais seguro em termos gerais, porque o laboratório mostrou que sair da RAM e cair em swap gera penalidade enorme. Porém, olhando só para este workload integrado, um upgrade de armazenamento também faria sentido, já que a fase I/O-bound foi a pior do teste, com apenas `89.75 MB/s`. Então, a decisão depende do uso: para multitarefa pesada, VMs e aplicações grandes, mais RAM continua sendo o investimento mais defensável; para cargas com muita leitura e escrita síncrona em disco, o armazenamento também merece atenção.
 
 **3. Xeon 32C/2.5GHz vs i9 8C/5.5GHz — quem ganha em qual cenário? Use Lei de Amdahl.**
 
-O Xeon 32C/2.5GHz ganha quando o workload é altamente paralelizável, com fração serial pequena e bom aproveitamento de muitos núcleos. O i9 8C/5.5GHz ganha quando o workload depende mais de desempenho por núcleo, latência, clock alto e parte serial relevante. Pela Lei de Amdahl, o ganho total é limitado pela fração serial do programa: se uma parte importante do código não paraleliza, adicionar muitos núcleos traz retorno decrescente. Então, em renderização, compressão muito paralela, batch processing ou servidores com muitas tarefas simultâneas, o Xeon tende a ganhar. Já em jogos, tarefas interativas, compilação parcialmente serial ou workloads com dependência de latência e IPC por núcleo, o i9 tende a ganhar.
+O Xeon 32C/2.5GHz ganha quando o workload é altamente paralelizável, com fração serial pequena e boa distribuição entre muitos núcleos. O i9 8C/5.5GHz ganha quando o workload depende mais de desempenho por núcleo, clock alto e baixa latência. Pela Lei de Amdahl, se uma parte importante do programa continua serial, o ganho adicional de muitos núcleos diminui rapidamente. Assim, em renderização, compressão paralela e servidores com muitas tarefas simultâneas, o Xeon tende a ganhar. Em jogos, tarefas interativas e cargas com dependência forte de desempenho por núcleo, o i9 tende a ganhar.
 
 **4. Como cada conceito afetou meu workload? (uma frase cada)**
 
-- Pipeline e ILP: o 7-Zip aproveitou bem a CPU, mas não conseguimos medir IPC diretamente no WSL2 por falta de suporte aos contadores de hardware.
-- Cache: o workload depende bastante de cache porque compressão/descompressão reutiliza dados e tabelas, embora a taxa de miss não tenha sido exposta diretamente no ambiente.
-- Memória virtual: a atividade mostrou que, quando a pressão de memória cresce e o sistema aproxima-se de swap, o custo de acesso sobe perceptivelmente.
-- PCIe / barramento: o link do NVMe era PCIe 4.0 x4, mas a banda real do SSD ficou bem abaixo do teto do barramento, então PCIe não foi o gargalo principal.
-- Multicore: o benchmark usou 12 threads e mostrou forte paralelismo, o que aumentou bastante o throughput total do workload.
+- Pipeline e ILP: a fase CPU-bound usou intensamente a CPU, mas o IPC não pôde ser medido diretamente no WSL2.
+- Cache: a fase CPU-bound foi desenhada para caber em cache, enquanto a fase memory-bound forçou a saída do cache para estressar a RAM.
+- Memória virtual: page faults continuaram ocorrendo, mas em taxa relativamente baixa para o workload integrado, cerca de `247/s`.
+- PCIe / barramento: o link PCIe do NVMe continuou muito acima da taxa real do I/O observado, então não foi o gargalo do workload.
+- Multicore: o snapshot final mostrou `0/12` núcleos acima de 50%, sugerindo que o workload completo não explorou bem o paralelismo global da máquina.
+
 
 ## Bloco final — Volte ao Bloco 0
 

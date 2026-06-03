@@ -1,0 +1,5 @@
+teste,hardware,tamanho,batch,repeticoes,tempo_medio_ms,tempo_desvio_ms,tempo_min_ms,tempo_max_ms,memoria_inicio_mb,memoria_fim_mb,gpu_peak_mb,observacao
+numpy_matmul_cpu,CPU,512,na,10,1.9908,0.3406,1.4515,2.5239,38.84,38.95,na,Multiplicação de matrizes float32 em CPU com NumPy
+numpy_matmul_cpu,CPU,1024,na,10,11.8742,2.2577,8.1388,14.5349,50.83,50.87,na,Multiplicação de matrizes float32 em CPU com NumPy
+numpy_matmul_cpu,CPU,1536,na,10,34.372,6.5823,26.3592,43.9726,66.62,66.62,na,Multiplicação de matrizes float32 em CPU com NumPy
+numpy_matmul_cpu,CPU,2048,na,10,75.4148,8.578,62.6958,86.5867,88.11,88.16,na,Multiplicação de matrizes float32 em CPU com NumPy

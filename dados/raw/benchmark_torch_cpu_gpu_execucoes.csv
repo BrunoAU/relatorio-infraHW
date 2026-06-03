@@ -1,0 +1,141 @@
+teste,hardware,tamanho,batch,repeticao,tempo_ms,observacao
+torch_matmul,CPU,512,na,1,1.5195,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,512,na,2,1.1663,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,512,na,3,1.1487,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,512,na,4,1.1531,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,512,na,5,1.1454,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,512,na,6,1.3658,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,512,na,7,1.3839,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,512,na,8,1.3409,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,512,na,9,1.7702,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,512,na,10,1.2362,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1024,na,1,8.6138,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1024,na,2,8.3233,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1024,na,3,8.3078,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1024,na,4,8.3128,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1024,na,5,8.299,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1024,na,6,8.324,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1024,na,7,8.3363,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1024,na,8,8.2906,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1024,na,9,8.3804,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1024,na,10,8.2128,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1536,na,1,27.7858,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1536,na,2,27.2717,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1536,na,3,28.068,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1536,na,4,27.9558,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1536,na,5,28.096,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1536,na,6,27.163,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1536,na,7,28.4357,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1536,na,8,27.9477,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1536,na,9,27.0763,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,1536,na,10,27.1377,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,2048,na,1,66.5787,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,2048,na,2,65.3548,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,2048,na,3,66.6403,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,2048,na,4,64.5599,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,2048,na,5,64.694,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,2048,na,6,65.0105,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,2048,na,7,64.9703,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,2048,na,8,65.0453,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,2048,na,9,65.2197,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CPU,2048,na,10,64.4235,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,1,1,1.5066,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,1,2,1.6774,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,1,3,1.5819,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,1,4,1.4837,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,1,5,1.8273,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,1,6,1.5683,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,1,7,1.6284,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,1,8,1.7167,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,1,9,1.7223,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,1,10,1.7679,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,8,1,3.3201,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,8,2,3.3442,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,8,3,3.2502,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,8,4,3.3074,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,8,5,3.197,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,8,6,3.4044,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,8,7,3.2568,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,8,8,3.1,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,8,9,3.2387,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,8,10,3.4119,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,32,1,6.3862,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,32,2,6.2439,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,32,3,6.0332,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,32,4,6.0352,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,32,5,6.1618,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,32,6,6.3095,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,32,7,6.2423,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,32,8,6.5456,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,32,9,6.4351,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,32,10,6.2661,Execução individual de inferência local em MLP sintético com PyTorch
+torch_matmul,CUDA,512,na,1,0.2542,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,512,na,2,0.2546,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,512,na,3,0.2296,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,512,na,4,0.2259,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,512,na,5,0.2308,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,512,na,6,0.2215,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,512,na,7,0.2213,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,512,na,8,0.2249,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,512,na,9,0.2216,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,512,na,10,0.1947,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1024,na,1,0.9568,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1024,na,2,0.9251,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1024,na,3,0.8673,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1024,na,4,0.8621,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1024,na,5,0.8605,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1024,na,6,0.8594,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1024,na,7,0.8558,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1024,na,8,0.8559,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1024,na,9,0.8618,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1024,na,10,0.853,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1536,na,1,4.9802,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1536,na,2,2.741,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1536,na,3,3.1333,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1536,na,4,2.9002,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1536,na,5,3.1475,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1536,na,6,2.8374,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1536,na,7,2.8915,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1536,na,8,2.7024,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1536,na,9,2.6749,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,1536,na,10,2.752,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,2048,na,1,7.8056,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,2048,na,2,6.3196,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,2048,na,3,6.3046,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,2048,na,4,6.2079,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,2048,na,5,6.0848,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,2048,na,6,5.9382,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,2048,na,7,5.9491,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,2048,na,8,6.0911,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,2048,na,9,6.1135,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_matmul,CUDA,2048,na,10,6.1175,Execução individual de multiplicação de matrizes float32 com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,1,1,0.8226,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,1,2,0.8085,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,1,3,0.8009,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,1,4,0.8067,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,1,5,0.804,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,1,6,0.7988,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,1,7,0.7972,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,1,8,0.7958,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,1,9,0.7945,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,1,10,0.7943,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,8,1,0.9325,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,8,2,0.9319,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,8,3,0.8852,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,8,4,0.8767,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,8,5,0.88,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,8,6,0.8708,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,8,7,0.8748,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,8,8,0.8728,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,8,9,0.8732,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,8,10,0.874,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,32,1,1.2663,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,32,2,1.7722,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,32,3,1.174,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,32,4,1.1428,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,32,5,1.1431,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,32,6,1.1435,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,32,7,1.143,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,32,8,1.1437,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,32,9,1.1403,Execução individual de inferência local em MLP sintético com PyTorch
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,32,10,1.1438,Execução individual de inferência local em MLP sintético com PyTorch

@@ -1,0 +1,7 @@
+teste,modelo,prompt_nome,repeticoes,total_medio_ms,total_desvio_ms,cliente_medio_ms,load_medio_ms,prompt_eval_medio_ms,eval_medio_ms,tokens_s_medio,tokens_s_desvio,eval_count_medio,status,observacao
+ollama_llm_generate,qwen3.5,curto_conceitual,5,38562.93686,509.0088543656286,40625.47938000007,556.7474,824.462,37164.0186,3.444698179560731,0.04661672072897229,128,ok,resumo de geracao local via Ollama API
+ollama_llm_generate,qwen3.5,medio_explicativo,5,42213.568139999996,1092.2375968189517,44281.4185199999,1038.15492,904.5884,40240.346,3.182144104198103,0.07037518576667771,128,ok,resumo de geracao local via Ollama API
+ollama_llm_generate,qwen3.5,tecnico_hardware,5,38708.49128,483.71134953408256,40765.93598000018,927.72944,832.3534,36927.7008,3.466664260160159,0.043140447016555644,128,ok,resumo de geracao local via Ollama API
+ollama_llm_generate,gemma3:4b,curto_conceitual,5,6793.41238,119.93569619469842,8851.412579999851,737.33464,522.6364,5520.2166,8.154607550090322,0.16633107942164696,45,ok,resumo de geracao local via Ollama API
+ollama_llm_generate,gemma3:4b,medio_explicativo,5,18020.44998,510.8662242821804,20078.623999999945,754.23366,3373.9276,13880.6558,7.853431720925249,0.08698079949454018,109,ok,resumo de geracao local via Ollama API
+ollama_llm_generate,gemma3:4b,tecnico_hardware,5,20491.20854,207.73038883645037,22544.260039999972,752.3284600000001,3556.386,16172.9788,7.9153784534868015,0.09631537067483129,128,ok,resumo de geracao local via Ollama API

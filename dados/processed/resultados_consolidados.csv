@@ -1,30 +1,52 @@
-teste,hardware,tamanho,batch,repeticoes,tempo_medio_ms,tempo_desvio_ms,tempo_min_ms,tempo_max_ms,memoria_inicio_mb,memoria_fim_mb,gpu_peak_mb,observacao,status
-numpy_matmul_cpu,CPU,512,na,10,1.9908,0.3406,1.4515,2.5239,38.84,38.95,na,Multiplicação de matrizes float32 em CPU com NumPy,
-numpy_matmul_cpu,CPU,1024,na,10,11.8742,2.2577,8.1388,14.5349,50.83,50.87,na,Multiplicação de matrizes float32 em CPU com NumPy,
-numpy_matmul_cpu,CPU,1536,na,10,34.372,6.5823,26.3592,43.9726,66.62,66.62,na,Multiplicação de matrizes float32 em CPU com NumPy,
-numpy_matmul_cpu,CPU,2048,na,10,75.4148,8.578,62.6958,86.5867,88.11,88.16,na,Multiplicação de matrizes float32 em CPU com NumPy,
-torch_matmul,CPU,512,na,10,1.323,0.202,1.1454,1.7702,515.72,517.09,na,Multiplicação de matrizes float32 com PyTorch,
-torch_matmul,CPU,1024,na,10,8.3401,0.105,8.2128,8.6138,527.16,531.16,na,Multiplicação de matrizes float32 com PyTorch,
-torch_matmul,CPU,1536,na,10,27.6938,0.4881,27.0763,28.4357,545.93,554.98,na,Multiplicação de matrizes float32 com PyTorch,
-torch_matmul,CPU,2048,na,10,65.2497,0.7715,64.4235,66.6403,580.17,596.2,na,Multiplicação de matrizes float32 com PyTorch,
-torch_mlp_inference,CPU,mlp_1024_2048x4_512,1,10,1.648,0.1134,1.4837,1.8273,596.86,596.87,na,Inferência local em MLP sintético com PyTorch,
-torch_mlp_inference,CPU,mlp_1024_2048x4_512,8,10,3.2831,0.0953,3.1,3.4119,597.05,597.05,na,Inferência local em MLP sintético com PyTorch,
-torch_mlp_inference,CPU,mlp_1024_2048x4_512,32,10,6.2659,0.1641,6.0332,6.5456,596.55,596.56,na,Inferência local em MLP sintético com PyTorch,
-torch_matmul,CUDA,512,na,10,0.2279,0.0172,0.1947,0.2546,746.66,737.86,12.12,Multiplicação de matrizes float32 com PyTorch,
-torch_matmul,CUDA,1024,na,10,0.8758,0.0354,0.853,0.9568,737.92,737.93,24.12,Multiplicação de matrizes float32 com PyTorch,
-torch_matmul,CUDA,1536,na,10,3.076,0.6891,2.6749,4.9802,737.95,737.95,44.12,Multiplicação de matrizes float32 com PyTorch,
-torch_matmul,CUDA,2048,na,10,6.2932,0.5464,5.9382,7.8056,737.95,737.96,72.12,Multiplicação de matrizes float32 com PyTorch,
-torch_mlp_inference,CUDA,mlp_1024_2048x4_512,1,10,0.8023,0.0087,0.7943,0.8226,777.12,777.12,68.18,Inferência local em MLP sintético com PyTorch,
-torch_mlp_inference,CUDA,mlp_1024_2048x4_512,8,10,0.8872,0.0241,0.8708,0.9325,809.72,809.73,68.33,Inferência local em MLP sintético com PyTorch,
-torch_mlp_inference,CUDA,mlp_1024_2048x4_512,32,10,1.2213,0.1974,1.1403,1.7722,797.76,797.76,68.85,Inferência local em MLP sintético com PyTorch,
-limite_matmul_cuda,CUDA,2560,,10,13.356629997724667,0.3480259035267158,12.813399982405826,13.852400006726384,674.5859375,674.70703125,112.125,teste de limite de matriz em GPU,ok
-limite_matmul_cuda,CUDA,3072,,10,23.734270001295958,1.259778139173935,21.132800000486892,25.427999993553385,674.73828125,674.85546875,152.125,teste de limite de matriz em GPU,ok
-limite_matmul_cuda,CUDA,4096,,10,57.47825000144076,1.462716797246595,55.75920001138002,59.76099998224527,674.86328125,674.93359375,264.125,teste de limite de matriz em GPU,ok
-torch_cnn_sintetico,CPU,3x224x224,1,10,5.394049998722039,0.2207951464975265,5.128899996634573,5.871799978194758,524.61328125,524.64453125,0.0,CNN sintetico com entrada de imagem,ok
-torch_cnn_sintetico,CPU,3x224x224,8,10,33.99543999112211,0.2847579896653937,33.60090000205673,34.336899989284575,594.03515625,594.03515625,0.0,CNN sintetico com entrada de imagem,ok
-torch_cnn_sintetico,CPU,3x224x224,16,10,62.266130006173626,0.9210151547293948,61.04679999407381,64.07049999688752,645.125,645.125,0.0,CNN sintetico com entrada de imagem,ok
-torch_cnn_sintetico,CPU,3x224x224,32,10,130.15731000341475,23.12343362540772,117.7730000053998,194.19249999918972,737.078125,933.22265625,0.0,CNN sintetico com entrada de imagem,ok
-torch_cnn_sintetico,CUDA,3x224x224,1,10,1.0703399981139228,0.1026308476307309,0.9277999924961478,1.2246000114828348,1205.97265625,1206.10546875,14.9189453125,CNN sintetico com entrada de imagem,ok
-torch_cnn_sintetico,CUDA,3x224x224,8,10,6.303240003762767,0.2413618340744365,6.043300003511831,6.7860000126529485,1224.7421875,1224.7890625,61.8134765625,CNN sintetico com entrada de imagem,ok
-torch_cnn_sintetico,CUDA,3x224x224,16,10,12.047100003110245,0.3327110360325401,11.69429998844862,12.47509999666363,1225.40625,1225.47265625,117.40771484375,CNN sintetico com entrada de imagem,ok
-torch_cnn_sintetico,CUDA,3x224x224,32,10,21.13199000013992,0.244407170723318,20.832300011534244,21.62640000460669,1231.76171875,1231.859375,222.595703125,CNN sintetico com entrada de imagem,ok
+teste,hardware,tamanho,batch,repeticoes,tempo_medio_ms,tempo_desvio_ms,tempo_min_ms,tempo_max_ms,memoria_inicio_mb,memoria_fim_mb,gpu_peak_mb,observacao,status,modelo,pretrained,prompt_nome,total_medio_ms,total_desvio_ms,cliente_medio_ms,load_medio_ms,prompt_eval_medio_ms,eval_medio_ms,tokens_s_medio,tokens_s_desvio,eval_count_medio
+numpy_matmul_cpu,CPU,512,na,10,1.9908,0.3406,1.4515,2.5239,38.84,38.95,na,Multiplicação de matrizes float32 em CPU com NumPy,,,,,,,,,,,,,
+numpy_matmul_cpu,CPU,1024,na,10,11.8742,2.2577,8.1388,14.5349,50.83,50.87,na,Multiplicação de matrizes float32 em CPU com NumPy,,,,,,,,,,,,,
+numpy_matmul_cpu,CPU,1536,na,10,34.372,6.5823,26.3592,43.9726,66.62,66.62,na,Multiplicação de matrizes float32 em CPU com NumPy,,,,,,,,,,,,,
+numpy_matmul_cpu,CPU,2048,na,10,75.4148,8.578,62.6958,86.5867,88.11,88.16,na,Multiplicação de matrizes float32 em CPU com NumPy,,,,,,,,,,,,,
+torch_matmul,CPU,512,na,10,1.323,0.202,1.1454,1.7702,515.72,517.09,na,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
+torch_matmul,CPU,1024,na,10,8.3401,0.105,8.2128,8.6138,527.16,531.16,na,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
+torch_matmul,CPU,1536,na,10,27.6938,0.4881,27.0763,28.4357,545.93,554.98,na,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
+torch_matmul,CPU,2048,na,10,65.2497,0.7715,64.4235,66.6403,580.17,596.2,na,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,1,10,1.648,0.1134,1.4837,1.8273,596.86,596.87,na,Inferência local em MLP sintético com PyTorch,,,,,,,,,,,,,
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,8,10,3.2831,0.0953,3.1,3.4119,597.05,597.05,na,Inferência local em MLP sintético com PyTorch,,,,,,,,,,,,,
+torch_mlp_inference,CPU,mlp_1024_2048x4_512,32,10,6.2659,0.1641,6.0332,6.5456,596.55,596.56,na,Inferência local em MLP sintético com PyTorch,,,,,,,,,,,,,
+torch_matmul,CUDA,512,na,10,0.2279,0.0172,0.1947,0.2546,746.66,737.86,12.12,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
+torch_matmul,CUDA,1024,na,10,0.8758,0.0354,0.853,0.9568,737.92,737.93,24.12,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
+torch_matmul,CUDA,1536,na,10,3.076,0.6891,2.6749,4.9802,737.95,737.95,44.12,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
+torch_matmul,CUDA,2048,na,10,6.2932,0.5464,5.9382,7.8056,737.95,737.96,72.12,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,1,10,0.8023,0.0087,0.7943,0.8226,777.12,777.12,68.18,Inferência local em MLP sintético com PyTorch,,,,,,,,,,,,,
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,8,10,0.8872,0.0241,0.8708,0.9325,809.72,809.73,68.33,Inferência local em MLP sintético com PyTorch,,,,,,,,,,,,,
+torch_mlp_inference,CUDA,mlp_1024_2048x4_512,32,10,1.2213,0.1974,1.1403,1.7722,797.76,797.76,68.85,Inferência local em MLP sintético com PyTorch,,,,,,,,,,,,,
+limite_matmul_cuda,CUDA,2560,,10,13.356629997724667,0.3480259035267158,12.813399982405826,13.852400006726384,674.5859375,674.70703125,112.125,teste de limite de matriz em GPU,ok,,,,,,,,,,,,
+limite_matmul_cuda,CUDA,3072,,10,23.734270001295958,1.259778139173935,21.132800000486892,25.427999993553385,674.73828125,674.85546875,152.125,teste de limite de matriz em GPU,ok,,,,,,,,,,,,
+limite_matmul_cuda,CUDA,4096,,10,57.47825000144076,1.462716797246595,55.75920001138002,59.76099998224527,674.86328125,674.93359375,264.125,teste de limite de matriz em GPU,ok,,,,,,,,,,,,
+torch_cnn_sintetico,CPU,3x224x224,1,10,5.394049998722039,0.2207951464975265,5.128899996634573,5.871799978194758,524.61328125,524.64453125,0.0,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
+torch_cnn_sintetico,CPU,3x224x224,8,10,33.99543999112211,0.2847579896653937,33.60090000205673,34.336899989284575,594.03515625,594.03515625,0.0,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
+torch_cnn_sintetico,CPU,3x224x224,16,10,62.266130006173626,0.9210151547293948,61.04679999407381,64.07049999688752,645.125,645.125,0.0,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
+torch_cnn_sintetico,CPU,3x224x224,32,10,130.15731000341475,23.12343362540772,117.7730000053998,194.19249999918972,737.078125,933.22265625,0.0,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
+torch_cnn_sintetico,CUDA,3x224x224,1,10,1.0703399981139228,0.1026308476307309,0.9277999924961478,1.2246000114828348,1205.97265625,1206.10546875,14.9189453125,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
+torch_cnn_sintetico,CUDA,3x224x224,8,10,6.303240003762767,0.2413618340744365,6.043300003511831,6.7860000126529485,1224.7421875,1224.7890625,61.8134765625,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
+torch_cnn_sintetico,CUDA,3x224x224,16,10,12.047100003110245,0.3327110360325401,11.69429998844862,12.47509999666363,1225.40625,1225.47265625,117.40771484375,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
+torch_cnn_sintetico,CUDA,3x224x224,32,10,21.13199000013992,0.244407170723318,20.832300011534244,21.62640000460669,1231.76171875,1231.859375,222.595703125,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,1,10,34.690080003929324,16.028464560400977,23.124500003177676,64.20359999174252,625.9921875,626.09765625,0.0,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,8,10,78.57002000091597,5.352538472333793,69.94089999352582,88.46160001121461,761.28515625,761.2890625,0.0,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,16,10,160.6309299968416,6.11935104108488,151.01779997348785,169.35439998633228,850.05859375,923.6640625,0.0,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,32,10,424.0377499983879,127.48262549121613,303.934700001264,646.678899996914,1187.17578125,1186.44140625,0.0,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,1,10,9.599129998241551,2.288341571942782,6.247999990591779,12.735999975120649,1467.765625,1467.91796875,32.23388671875,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,8,10,19.06058999884408,0.8690873427664065,17.827300005592406,20.06449998589233,1517.17578125,1517.23828125,105.9521484375,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,16,10,35.45731999911368,0.4696454055017004,35.01730001880787,36.4191000116989,1517.5546875,1517.58984375,191.201171875,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,32,10,70.14008999976795,0.1836477450802643,69.91429999470711,70.44589999713935,1536.16796875,1536.1875,361.69970703125,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,1,10,29.840809997403998,1.542928735768875,28.69140001712367,34.01879998273216,1526.75,1526.75,0.0,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,8,10,158.62464999663644,0.8753799468895421,157.00599999399856,160.11169998091646,1545.38671875,1545.38671875,0.0,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,16,10,340.0476900074864,4.454315881144305,334.7831999999471,350.07580000092275,1510.859375,1510.41015625,0.0,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,32,10,614.0557100006845,4.597012870545109,604.8691000032704,620.0150999939069,1515.2109375,1515.21484375,0.0,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,1,10,21.31319999753032,21.756410443813497,6.919300009030849,56.683799979509786,1475.7265625,1475.7265625,63.97607421875,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,8,10,17.568420004681684,1.182749707271402,15.765500022098422,18.618400004925206,1523.23828125,1523.23828125,107.32275390625,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,16,10,29.24727999779861,0.3653776748658887,28.7430000025779,29.71669999533333,1523.61328125,1523.61328125,162.94677734375,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,32,10,54.70181999844499,0.2225181098463745,54.33060001814738,55.10560001130216,1527.02734375,1527.02734375,268.1953125,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
+ollama_llm_generate,,,,5,,,,,,,,resumo de geracao local via Ollama API,ok,qwen3.5,,curto_conceitual,38562.93686,509.0088543656286,40625.47938000007,556.7474,824.462,37164.0186,3.444698179560731,0.0466167207289722,128.0
+ollama_llm_generate,,,,5,,,,,,,,resumo de geracao local via Ollama API,ok,qwen3.5,,medio_explicativo,42213.56814,1092.2375968189515,44281.4185199999,1038.15492,904.5884,40240.346,3.182144104198103,0.0703751857666777,128.0
+ollama_llm_generate,,,,5,,,,,,,,resumo de geracao local via Ollama API,ok,qwen3.5,,tecnico_hardware,38708.49128,483.71134953408256,40765.93598000018,927.72944,832.3534,36927.7008,3.466664260160159,0.0431404470165556,128.0
+ollama_llm_generate,,,,5,,,,,,,,resumo de geracao local via Ollama API,ok,gemma3:4b,,curto_conceitual,6793.41238,119.93569619469842,8851.412579999851,737.33464,522.6364,5520.2166,8.154607550090322,0.1663310794216469,45.0
+ollama_llm_generate,,,,5,,,,,,,,resumo de geracao local via Ollama API,ok,gemma3:4b,,medio_explicativo,18020.44998,510.8662242821804,20078.623999999945,754.23366,3373.9276,13880.6558,7.853431720925249,0.0869807994945401,109.0
+ollama_llm_generate,,,,5,,,,,,,,resumo de geracao local via Ollama API,ok,gemma3:4b,,tecnico_hardware,20491.20854,207.7303888364504,22544.26003999997,752.3284600000001,3556.386,16172.9788,7.9153784534868015,0.0963153706748312,128.0

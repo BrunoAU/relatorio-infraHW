@@ -19,6 +19,7 @@ def load_data():
         RAW / "benchmark_torch_cpu_gpu.csv",
         RAW / "benchmark_limite_gpu.csv",
         RAW / "benchmark_cnn_sintetico.csv",
+        RAW / "benchmark_modelos_reais.csv",
     ]
 
     for path in paths:
@@ -40,6 +41,8 @@ def save_consolidated(df):
 
     preferred_columns = [
         "teste",
+        "modelo",
+        "pretrained",
         "hardware",
         "tamanho",
         "batch",
@@ -82,11 +85,7 @@ def plot_matmul(df):
 
     for label, group in subset.groupby("label"):
         group = group.sort_values("tamanho")
-
-        yerr = None
-
-        if "tempo_desvio_ms" in group.columns:
-            yerr = group["tempo_desvio_ms"]
+        yerr = group["tempo_desvio_ms"] if "tempo_desvio_ms" in group.columns else None
 
         plt.errorbar(
             group["tamanho"].astype(str),
@@ -123,11 +122,7 @@ def plot_mlp(df):
 
     for hardware, group in subset.groupby("hardware"):
         group = group.sort_values("batch")
-
-        yerr = None
-
-        if "tempo_desvio_ms" in group.columns:
-            yerr = group["tempo_desvio_ms"]
+        yerr = group["tempo_desvio_ms"] if "tempo_desvio_ms" in group.columns else None
 
         plt.errorbar(
             group["batch"].astype(int).astype(str),
@@ -164,11 +159,7 @@ def plot_cnn(df):
 
     for hardware, group in subset.groupby("hardware"):
         group = group.sort_values("batch")
-
-        yerr = None
-
-        if "tempo_desvio_ms" in group.columns:
-            yerr = group["tempo_desvio_ms"]
+        yerr = group["tempo_desvio_ms"] if "tempo_desvio_ms" in group.columns else None
 
         plt.errorbar(
             group["batch"].astype(int).astype(str),
@@ -207,10 +198,7 @@ def plot_limite_gpu(df):
 
     plt.figure(figsize=(9, 5))
 
-    yerr = None
-
-    if "tempo_desvio_ms" in subset.columns:
-        yerr = subset["tempo_desvio_ms"]
+    yerr = subset["tempo_desvio_ms"] if "tempo_desvio_ms" in subset.columns else None
 
     plt.errorbar(
         subset["tamanho"].astype(str),
@@ -234,6 +222,49 @@ def plot_limite_gpu(df):
     print(f"Gráfico salvo em: {path}")
 
 
+def plot_modelos_reais(df):
+    subset = df[df["teste"] == "torch_modelo_real_inferencia"].copy()
+
+    if subset.empty:
+        return
+
+    subset = subset[subset["status"] == "ok"].copy()
+
+    if subset.empty:
+        return
+
+    subset["batch"] = pd.to_numeric(subset["batch"], errors="coerce")
+    subset = subset.sort_values("batch")
+
+    for modelo, df_modelo in subset.groupby("modelo"):
+        plt.figure(figsize=(9, 5))
+
+        for hardware, group in df_modelo.groupby("hardware"):
+            group = group.sort_values("batch")
+            yerr = group["tempo_desvio_ms"] if "tempo_desvio_ms" in group.columns else None
+
+            plt.errorbar(
+                group["batch"].astype(int).astype(str),
+                group["tempo_medio_ms"],
+                yerr=yerr,
+                marker="o",
+                capsize=4,
+                label=hardware,
+            )
+
+        plt.xlabel("Batch")
+        plt.ylabel("Tempo médio (ms)")
+        plt.title(f"Inferência local em modelo real: {modelo}")
+        plt.legend()
+        plt.tight_layout()
+
+        path = CHARTS / f"tempo_modelo_real_{modelo}.png"
+        plt.savefig(path, dpi=150)
+        plt.close()
+
+        print(f"Gráfico salvo em: {path}")
+
+
 def main():
     df = load_data()
 
@@ -242,6 +273,7 @@ def main():
     plot_mlp(df)
     plot_cnn(df)
     plot_limite_gpu(df)
+    plot_modelos_reais(df)
 
 
 if __name__ == "__main__":

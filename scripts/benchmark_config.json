@@ -1,0 +1,47 @@
+{
+  "seed": 42,
+  "repetitions": 10,
+  "warmups": 2,
+  "matrix_sizes": [512, 1024, 1536, 2048],
+  "gpu_limit_matrix_sizes": [2560, 3072, 4096],
+  "batches": [1, 8, 16, 32],
+  "vision_models": ["mobilenet_v2", "resnet18"],
+  "vision_input": {
+    "channels": 3,
+    "height": 224,
+    "width": 224
+  },
+  "ollama": {
+    "url": "http://localhost:11434",
+    "models": [
+      "gemma3:1b",
+      "llama3.2:1b",
+      "llama3.2:3b",
+      "gemma3:4b",
+      "llama3:8b",
+      "qwen3.5:latest",
+      "qwen2.5-coder:14b"
+    ],
+    "temperature": 0,
+    "num_predict": 128,
+    "timeout_s": 240,
+    "repetitions": 3,
+    "warmups": 1,
+    "prompt_categories": [
+      "explicacao_conceitual_curta",
+      "explicacao_tecnica_media",
+      "resumo_texto",
+      "geracao_codigo_simples",
+      "analise_codigo",
+      "raciocinio_logico_curto",
+      "hardware_ia_local",
+      "reescrita_objetiva",
+      "tarefa_longa_uso_real"
+    ]
+  },
+  "hardware_sampling_interval_s": 1.0,
+  "heavy_tests_enabled": true,
+  "run_ollama": true,
+  "run_gpu_limit": true,
+  "pretrained_vision": false
+}

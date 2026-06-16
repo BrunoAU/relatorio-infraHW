@@ -1,0 +1,208 @@
+{
+  "timestamp": "2026-06-16T17:46:15",
+  "scripts_executados": [
+    "coletar_sistema.py",
+    "benchmark_numpy_cpu.py",
+    "benchmark_torch_cpu_gpu.py",
+    "benchmark_limite_gpu.py",
+    "benchmark_cnn_sintetico.py",
+    "benchmark_modelos_reais.py",
+    "benchmark_ollama_llms.py",
+    "analisar_resultados.py",
+    "gerar_graficos.py"
+  ],
+  "status_por_etapa": [
+    {
+      "etapa": "coletar_sistema",
+      "script": "coletar_sistema.py",
+      "status": "ok",
+      "duracao_s": 3.5991,
+      "returncode": 0,
+      "stdout_resumo": "Informações do sistema salvas em C:\\Users\\user\\Desktop\\ia-local-bench\\ia-local-bench\\dados\\raw\\system_info.json e C:\\Users\\user\\Desktop\\ia-local-bench\\ia-local-bench\\resultados\\logs\\system_info_20260616_174442.json\n",
+      "stderr_resumo": ""
+    },
+    {
+      "etapa": "benchmark_numpy_cpu",
+      "script": "benchmark_numpy_cpu.py",
+      "status": "ok",
+      "duracao_s": 5.7257,
+      "returncode": 0,
+      "stdout_resumo": "NumPy CPU matmul 512x512\nNumPy CPU matmul 1024x1024\nNumPy CPU matmul 1536x1536\nNumPy CPU matmul 2048x2048\n",
+      "stderr_resumo": ""
+    },
+    {
+      "etapa": "benchmark_torch_cpu_gpu",
+      "script": "benchmark_torch_cpu_gpu.py",
+      "status": "ok",
+      "duracao_s": 7.6502,
+      "returncode": 0,
+      "stdout_resumo": "PyTorch matmul cpu 512x512\nPyTorch matmul cpu 1024x1024\nPyTorch matmul cpu 1536x1536\nPyTorch matmul cpu 2048x2048\nPyTorch MLP cpu batch 1\nPyTorch MLP cpu batch 8\nPyTorch MLP cpu batch 16\nPyTorch MLP cpu batch 32\nPyTorch matmul cuda 512x512\nPyTorch matmul cuda 1024x1024\nPyTorch matmul cuda 1536x1536\nPyTorch matmul cuda 2048x2048\nPyTorch MLP cuda batch 1\nPyTorch MLP cuda batch 8\nPyTorch MLP cuda batch 16\nPyTorch MLP cuda batch 32\n",
+      "stderr_resumo": ""
+    },
+    {
+      "etapa": "benchmark_limite_gpu",
+      "script": "benchmark_limite_gpu.py",
+      "status": "ok",
+      "duracao_s": 5.6834,
+      "returncode": 0,
+      "stdout_resumo": "Limite GPU 2560x2560\nLimite GPU 3072x3072\nLimite GPU 4096x4096\n",
+      "stderr_resumo": ""
+    },
+    {
+      "etapa": "benchmark_cnn_sintetico",
+      "script": "benchmark_cnn_sintetico.py",
+      "status": "ok",
+      "duracao_s": 8.5058,
+      "returncode": 0,
+      "stdout_resumo": "CNN sintética cpu batch 1\nCNN sintética cpu batch 8\nCNN sintética cpu batch 16\nCNN sintética cpu batch 32\nCNN sintética cuda batch 1\nCNN sintética cuda batch 8\nCNN sintética cuda batch 16\nCNN sintética cuda batch 32\n",
+      "stderr_resumo": ""
+    },
+    {
+      "etapa": "benchmark_modelos_reais",
+      "script": "benchmark_modelos_reais.py",
+      "status": "ok",
+      "duracao_s": 53.6903,
+      "returncode": 0,
+      "stdout_resumo": "Modelo real mobilenet_v2 cpu batch 1\nModelo real mobilenet_v2 cpu batch 8\nModelo real mobilenet_v2 cpu batch 16\nModelo real mobilenet_v2 cpu batch 32\nModelo real mobilenet_v2 cuda batch 1\nModelo real mobilenet_v2 cuda batch 8\nModelo real mobilenet_v2 cuda batch 16\nModelo real mobilenet_v2 cuda batch 32\nModelo real resnet18 cpu batch 1\nModelo real resnet18 cpu batch 8\nModelo real resnet18 cpu batch 16\nModelo real resnet18 cpu batch 32\nModelo real resnet18 cuda batch 1\nModelo real resnet18 cuda batch 8\nModelo real resnet18 cuda batch 16\nModelo real resnet18 cuda batch 32\n",
+      "stderr_resumo": ""
+    },
+    {
+      "etapa": "benchmark_ollama_llms",
+      "script": "benchmark_ollama_llms.py",
+      "status": "ok",
+      "duracao_s": 0.0,
+      "returncode": 0,
+      "stdout_resumo": "Benchmark Ollama reutilizado a partir dos CSVs existentes em dados/raw.",
+      "stderr_resumo": ""
+    },
+    {
+      "etapa": "analisar_resultados",
+      "script": "analisar_resultados.py",
+      "status": "ok",
+      "duracao_s": 1.3527,
+      "returncode": 0,
+      "stdout_resumo": "",
+      "stderr_resumo": ""
+    },
+    {
+      "etapa": "gerar_graficos",
+      "script": "gerar_graficos.py",
+      "status": "ok",
+      "duracao_s": 9.9854,
+      "returncode": 0,
+      "stdout_resumo": "",
+      "stderr_resumo": ""
+    }
+  ],
+  "duracao_total_s": 96.1926,
+  "arquivos_gerados": [
+    "dados\\processed\\resultados_consolidados.csv",
+    "dados\\raw\\benchmark_cnn_sintetico.csv",
+    "dados\\raw\\benchmark_cnn_sintetico_execucoes.csv",
+    "dados\\raw\\benchmark_limite_gpu.csv",
+    "dados\\raw\\benchmark_limite_gpu_execucoes.csv",
+    "dados\\raw\\benchmark_modelos_reais.csv",
+    "dados\\raw\\benchmark_modelos_reais_execucoes.csv",
+    "dados\\raw\\benchmark_numpy_cpu.csv",
+    "dados\\raw\\benchmark_numpy_cpu_execucoes.csv",
+    "dados\\raw\\benchmark_ollama_llms.csv",
+    "dados\\raw\\benchmark_ollama_llms_execucoes.csv",
+    "dados\\raw\\benchmark_torch_cpu_gpu.csv",
+    "dados\\raw\\benchmark_torch_cpu_gpu_execucoes.csv",
+    "dados\\raw\\ollama_benchmark_resumo.csv",
+    "dados\\raw\\ollama_hardware_trace.csv",
+    "dados\\raw\\ollama_modelos_resumo.csv",
+    "dados\\raw\\ollama_por_tarefa.csv",
+    "dados\\raw\\ollama_tokens_por_segundo.csv",
+    "dados\\raw\\ollama_uso_hardware.csv",
+    "dados\\raw\\ollama_viabilidade_pratica.csv",
+    "dados\\raw\\system_info.json",
+    "resultados\\graficos\\ollama_cpu_medio_por_modelo.png",
+    "resultados\\graficos\\ollama_gpu_media_por_modelo.png",
+    "resultados\\graficos\\ollama_pico_ram_por_modelo.png",
+    "resultados\\graficos\\ollama_pico_vram_por_modelo.png",
+    "resultados\\graficos\\ollama_serie_temporal_representativa.png",
+    "resultados\\graficos\\ollama_taxa_status.png",
+    "resultados\\graficos\\ollama_tempo_vs_hardware.png",
+    "resultados\\graficos\\ollama_tokens_por_tarefa.png",
+    "resultados\\graficos\\ollama_viabilidade_pratica.png",
+    "resultados\\graficos\\speedup_cuda_vs_cpu.png",
+    "resultados\\graficos\\tempo_cnn_sintetico.png",
+    "resultados\\graficos\\tempo_limite_gpu.png",
+    "resultados\\graficos\\tempo_matmul.png",
+    "resultados\\graficos\\tempo_mlp_inferencia.png",
+    "resultados\\graficos\\tempo_modelo_real_mobilenet_v2.png",
+    "resultados\\graficos\\tempo_modelo_real_resnet18.png",
+    "resultados\\graficos\\tempo_ollama_llms_total.png",
+    "resultados\\graficos\\tokens_ollama_llms.png",
+    "resultados\\logs\\preflight_check.md",
+    "resultados\\logs\\preflight_to_final_status.md",
+    "resultados\\logs\\run_manifest.json",
+    "resultados\\logs\\system_info_20260616_140947.json",
+    "resultados\\logs\\system_info_20260616_141127.json",
+    "resultados\\logs\\system_info_20260616_141317.json",
+    "resultados\\logs\\system_info_20260616_143445.json",
+    "resultados\\logs\\system_info_20260616_143557.json",
+    "resultados\\logs\\system_info_20260616_144655.json",
+    "resultados\\logs\\system_info_20260616_145917.json",
+    "resultados\\logs\\system_info_20260616_145958.json",
+    "resultados\\logs\\system_info_20260616_150426.json",
+    "resultados\\logs\\system_info_20260616_172812.json",
+    "resultados\\logs\\system_info_20260616_174442.json",
+    "resultados\\tabelas\\limitacoes_experimentais.csv",
+    "resultados\\tabelas\\ollama_hardware_trace.csv",
+    "resultados\\tabelas\\ollama_modelos_resumo.csv",
+    "resultados\\tabelas\\ollama_por_tarefa.csv",
+    "resultados\\tabelas\\ollama_tokens_por_segundo.csv",
+    "resultados\\tabelas\\ollama_uso_hardware.csv",
+    "resultados\\tabelas\\ollama_viabilidade_pratica.csv",
+    "resultados\\tabelas\\speedups_cpu_cuda.csv",
+    "resultados\\tabelas\\tabela_resultados_artigo.csv"
+  ],
+  "erros_ou_skips": [],
+  "resumo_ambiente": {
+    "python": {
+      "version": "3.14.3",
+      "executable": "C:\\Users\\user\\Desktop\\ia-local-bench\\ia-local-bench\\.venv\\Scripts\\python.exe"
+    },
+    "sistema_operacional": {
+      "system": "Windows",
+      "release": "11",
+      "version": "10.0.26200",
+      "machine": "AMD64"
+    },
+    "cpu": {
+      "nome": "Intel64 Family 6 Model 186 Stepping 3, GenuineIntel",
+      "nucleos_fisicos": 10,
+      "threads_logicas": 12,
+      "frequencia_mhz": {
+        "current": 1800.0,
+        "min": 0.0,
+        "max": 1800.0
+      }
+    },
+    "gpu": [
+      {
+        "provider": "nvidia-smi",
+        "status": "ok",
+        "name": "NVIDIA GeForce MX570 A",
+        "memory_total": "2048 MiB",
+        "driver_version": "610.47"
+      }
+    ],
+    "torch": {
+      "installed": true,
+      "version": "2.12.0+cu126",
+      "cuda_available": true,
+      "cuda_device_count": 1,
+      "cuda_devices": [
+        {
+          "index": 0,
+          "name": "NVIDIA GeForce MX570 A",
+          "vram_total_gb": 2.0
+        }
+      ],
+      "cuda_version_pytorch": "12.6"
+    }
+  }
+}

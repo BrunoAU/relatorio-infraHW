@@ -1,0 +1,2 @@
+teste,modelo,hardware,status,limitacao
+escopo_experimental,,NPU,nao_medido,NPU nao foi testada experimentalmente neste projeto; o escopo experimental cobre CPU e GPU CUDA quando disponiveis.

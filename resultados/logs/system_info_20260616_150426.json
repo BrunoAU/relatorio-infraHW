@@ -1,0 +1,62 @@
+{
+  "timestamp": "2026-06-16T15:04:17",
+  "sistema_operacional": {
+    "system": "Windows",
+    "release": "11",
+    "version": "10.0.26200",
+    "machine": "AMD64"
+  },
+  "python": {
+    "version": "3.14.3",
+    "executable": "C:\\Users\\user\\Desktop\\ia-local-bench\\ia-local-bench\\.venv\\Scripts\\python.exe"
+  },
+  "cpu": {
+    "nome": "Intel64 Family 6 Model 186 Stepping 3, GenuineIntel",
+    "nucleos_fisicos": 10,
+    "threads_logicas": 12,
+    "frequencia_mhz": {
+      "current": 1472.0,
+      "min": 0.0,
+      "max": 1800.0
+    }
+  },
+  "ram": {
+    "total_gb": 31.692
+  },
+  "gpu": [
+    {
+      "provider": "nvidia-smi",
+      "status": "ok",
+      "name": "NVIDIA GeForce MX570 A",
+      "memory_total": "2048 MiB",
+      "driver_version": "610.47"
+    }
+  ],
+  "torch": {
+    "installed": true,
+    "version": "2.12.0+cu126",
+    "cuda_available": true,
+    "cuda_device_count": 1,
+    "cuda_devices": [
+      {
+        "index": 0,
+        "name": "NVIDIA GeForce MX570 A",
+        "vram_total_gb": 2.0
+      }
+    ],
+    "cuda_version_pytorch": "12.6"
+  },
+  "pacotes_principais": {
+    "numpy": "2.4.6",
+    "pandas": "3.0.3",
+    "psutil": "7.2.2",
+    "matplotlib": "3.11.0",
+    "torch": "2.12.0+cu126",
+    "torchvision": "0.27.0+cu126",
+    "requests": "2.34.2"
+  },
+  "npu": {
+    "medida_automaticamente": false,
+    "observacao": "NPU não é medida automaticamente neste projeto. O estudo experimental atual cobre CPU e CUDA/GPU quando disponíveis."
+  }
+}

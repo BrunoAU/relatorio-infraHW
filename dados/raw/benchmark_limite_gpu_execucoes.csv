@@ -1,31 +1,31 @@
 teste,hardware,tamanho,batch,repeticao,tempo_ms,memoria_ram_mb,gpu_peak_mb,status,observacao
-limite_matmul_cuda,CUDA,2560,,1,12.882199982414022,674.61328125,112.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,2560,,2,12.813399982405826,674.6328125,112.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,2560,,3,13.852400006726384,674.6484375,112.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,2560,,4,13.332000002264977,674.6640625,112.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,2560,,5,13.364399987040088,674.6875,112.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,2560,,6,13.518499996280298,674.6953125,112.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,2560,,7,13.572399999247864,674.70703125,112.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,2560,,8,13.734799984376878,674.70703125,112.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,2560,,9,13.043000013567507,674.70703125,112.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,2560,,10,13.453200022922829,674.70703125,112.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,3072,,1,21.132800000486895,674.74609375,152.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,3072,,2,22.7141999930609,674.75390625,152.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,3072,,3,23.397100012516603,674.77734375,152.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,3072,,4,25.427999993553385,674.79296875,152.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,3072,,5,23.956600023666397,674.85546875,152.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,3072,,6,23.688699991907924,674.85546875,152.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,3072,,7,25.33559998846613,674.85546875,152.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,3072,,8,24.59000001545064,674.85546875,152.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,3072,,9,23.74569998937659,674.85546875,152.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,3072,,10,23.354000004474074,674.85546875,152.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,4096,,1,55.75920001138002,674.86328125,264.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,4096,,2,56.50950002018362,674.86328125,264.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,4096,,3,56.5620000124909,674.86328125,264.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,4096,,4,56.38699998962693,674.86328125,264.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,4096,,5,58.06959999608807,674.86328125,264.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,4096,,6,59.62429998908192,674.875,264.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,4096,,7,59.760999982245266,674.890625,264.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,4096,,8,58.75780002679676,674.90625,264.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,4096,,9,57.0235000050161,674.921875,264.125,ok,teste de limite de matriz em GPU
-limite_matmul_cuda,CUDA,4096,,10,56.32859998149797,674.93359375,264.125,ok,teste de limite de matriz em GPU
+limite_matmul_cuda,CUDA,2560,na,1,14.0703,723.88,112.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,2560,na,2,13.4602,723.9,112.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,2560,na,3,13.9305,723.91,112.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,2560,na,4,14.2801,723.93,112.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,2560,na,5,14.1979,723.95,112.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,2560,na,6,14.0734,723.96,112.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,2560,na,7,13.9475,723.98,112.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,2560,na,8,14.0544,724.0,112.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,2560,na,9,14.148,724.02,112.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,2560,na,10,13.5766,724.04,112.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,3072,na,1,32.7944,724.13,152.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,3072,na,2,28.5244,724.13,152.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,3072,na,3,28.9395,724.13,152.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,3072,na,4,28.662,724.13,152.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,3072,na,5,29.6477,724.13,152.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,3072,na,6,29.3424,724.13,152.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,3072,na,7,29.4042,724.13,152.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,3072,na,8,28.928,724.13,152.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,3072,na,9,29.5012,724.13,152.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,3072,na,10,28.9788,724.13,152.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,4096,na,1,70.4545,724.14,264.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,4096,na,2,68.6054,724.14,264.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,4096,na,3,68.3403,724.14,264.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,4096,na,4,77.0826,724.14,264.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,4096,na,5,69.1737,724.15,264.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,4096,na,6,68.3935,724.15,264.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,4096,na,7,68.3329,724.15,264.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,4096,na,8,68.5915,724.15,264.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,4096,na,9,68.7051,724.15,264.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.
+limite_matmul_cuda,CUDA,4096,na,10,87.8112,724.15,264.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.

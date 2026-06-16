@@ -1,52 +1,111 @@
-teste,hardware,tamanho,batch,repeticoes,tempo_medio_ms,tempo_desvio_ms,tempo_min_ms,tempo_max_ms,memoria_inicio_mb,memoria_fim_mb,gpu_peak_mb,observacao,status,modelo,pretrained,prompt_nome,total_medio_ms,total_desvio_ms,cliente_medio_ms,load_medio_ms,prompt_eval_medio_ms,eval_medio_ms,tokens_s_medio,tokens_s_desvio,eval_count_medio
-numpy_matmul_cpu,CPU,512,na,10,1.9908,0.3406,1.4515,2.5239,38.84,38.95,na,Multiplicação de matrizes float32 em CPU com NumPy,,,,,,,,,,,,,
-numpy_matmul_cpu,CPU,1024,na,10,11.8742,2.2577,8.1388,14.5349,50.83,50.87,na,Multiplicação de matrizes float32 em CPU com NumPy,,,,,,,,,,,,,
-numpy_matmul_cpu,CPU,1536,na,10,34.372,6.5823,26.3592,43.9726,66.62,66.62,na,Multiplicação de matrizes float32 em CPU com NumPy,,,,,,,,,,,,,
-numpy_matmul_cpu,CPU,2048,na,10,75.4148,8.578,62.6958,86.5867,88.11,88.16,na,Multiplicação de matrizes float32 em CPU com NumPy,,,,,,,,,,,,,
-torch_matmul,CPU,512,na,10,1.323,0.202,1.1454,1.7702,515.72,517.09,na,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
-torch_matmul,CPU,1024,na,10,8.3401,0.105,8.2128,8.6138,527.16,531.16,na,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
-torch_matmul,CPU,1536,na,10,27.6938,0.4881,27.0763,28.4357,545.93,554.98,na,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
-torch_matmul,CPU,2048,na,10,65.2497,0.7715,64.4235,66.6403,580.17,596.2,na,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
-torch_mlp_inference,CPU,mlp_1024_2048x4_512,1,10,1.648,0.1134,1.4837,1.8273,596.86,596.87,na,Inferência local em MLP sintético com PyTorch,,,,,,,,,,,,,
-torch_mlp_inference,CPU,mlp_1024_2048x4_512,8,10,3.2831,0.0953,3.1,3.4119,597.05,597.05,na,Inferência local em MLP sintético com PyTorch,,,,,,,,,,,,,
-torch_mlp_inference,CPU,mlp_1024_2048x4_512,32,10,6.2659,0.1641,6.0332,6.5456,596.55,596.56,na,Inferência local em MLP sintético com PyTorch,,,,,,,,,,,,,
-torch_matmul,CUDA,512,na,10,0.2279,0.0172,0.1947,0.2546,746.66,737.86,12.12,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
-torch_matmul,CUDA,1024,na,10,0.8758,0.0354,0.853,0.9568,737.92,737.93,24.12,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
-torch_matmul,CUDA,1536,na,10,3.076,0.6891,2.6749,4.9802,737.95,737.95,44.12,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
-torch_matmul,CUDA,2048,na,10,6.2932,0.5464,5.9382,7.8056,737.95,737.96,72.12,Multiplicação de matrizes float32 com PyTorch,,,,,,,,,,,,,
-torch_mlp_inference,CUDA,mlp_1024_2048x4_512,1,10,0.8023,0.0087,0.7943,0.8226,777.12,777.12,68.18,Inferência local em MLP sintético com PyTorch,,,,,,,,,,,,,
-torch_mlp_inference,CUDA,mlp_1024_2048x4_512,8,10,0.8872,0.0241,0.8708,0.9325,809.72,809.73,68.33,Inferência local em MLP sintético com PyTorch,,,,,,,,,,,,,
-torch_mlp_inference,CUDA,mlp_1024_2048x4_512,32,10,1.2213,0.1974,1.1403,1.7722,797.76,797.76,68.85,Inferência local em MLP sintético com PyTorch,,,,,,,,,,,,,
-limite_matmul_cuda,CUDA,2560,,10,13.356629997724667,0.3480259035267158,12.813399982405826,13.852400006726384,674.5859375,674.70703125,112.125,teste de limite de matriz em GPU,ok,,,,,,,,,,,,
-limite_matmul_cuda,CUDA,3072,,10,23.734270001295958,1.259778139173935,21.132800000486892,25.427999993553385,674.73828125,674.85546875,152.125,teste de limite de matriz em GPU,ok,,,,,,,,,,,,
-limite_matmul_cuda,CUDA,4096,,10,57.47825000144076,1.462716797246595,55.75920001138002,59.76099998224527,674.86328125,674.93359375,264.125,teste de limite de matriz em GPU,ok,,,,,,,,,,,,
-torch_cnn_sintetico,CPU,3x224x224,1,10,5.394049998722039,0.2207951464975265,5.128899996634573,5.871799978194758,524.61328125,524.64453125,0.0,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
-torch_cnn_sintetico,CPU,3x224x224,8,10,33.99543999112211,0.2847579896653937,33.60090000205673,34.336899989284575,594.03515625,594.03515625,0.0,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
-torch_cnn_sintetico,CPU,3x224x224,16,10,62.266130006173626,0.9210151547293948,61.04679999407381,64.07049999688752,645.125,645.125,0.0,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
-torch_cnn_sintetico,CPU,3x224x224,32,10,130.15731000341475,23.12343362540772,117.7730000053998,194.19249999918972,737.078125,933.22265625,0.0,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
-torch_cnn_sintetico,CUDA,3x224x224,1,10,1.0703399981139228,0.1026308476307309,0.9277999924961478,1.2246000114828348,1205.97265625,1206.10546875,14.9189453125,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
-torch_cnn_sintetico,CUDA,3x224x224,8,10,6.303240003762767,0.2413618340744365,6.043300003511831,6.7860000126529485,1224.7421875,1224.7890625,61.8134765625,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
-torch_cnn_sintetico,CUDA,3x224x224,16,10,12.047100003110245,0.3327110360325401,11.69429998844862,12.47509999666363,1225.40625,1225.47265625,117.40771484375,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
-torch_cnn_sintetico,CUDA,3x224x224,32,10,21.13199000013992,0.244407170723318,20.832300011534244,21.62640000460669,1231.76171875,1231.859375,222.595703125,CNN sintetico com entrada de imagem,ok,,,,,,,,,,,,
-torch_modelo_real_inferencia,CPU,3x224x224,1,10,34.690080003929324,16.028464560400977,23.124500003177676,64.20359999174252,625.9921875,626.09765625,0.0,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
-torch_modelo_real_inferencia,CPU,3x224x224,8,10,78.57002000091597,5.352538472333793,69.94089999352582,88.46160001121461,761.28515625,761.2890625,0.0,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
-torch_modelo_real_inferencia,CPU,3x224x224,16,10,160.6309299968416,6.11935104108488,151.01779997348785,169.35439998633228,850.05859375,923.6640625,0.0,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
-torch_modelo_real_inferencia,CPU,3x224x224,32,10,424.0377499983879,127.48262549121613,303.934700001264,646.678899996914,1187.17578125,1186.44140625,0.0,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
-torch_modelo_real_inferencia,CUDA,3x224x224,1,10,9.599129998241551,2.288341571942782,6.247999990591779,12.735999975120649,1467.765625,1467.91796875,32.23388671875,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
-torch_modelo_real_inferencia,CUDA,3x224x224,8,10,19.06058999884408,0.8690873427664065,17.827300005592406,20.06449998589233,1517.17578125,1517.23828125,105.9521484375,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
-torch_modelo_real_inferencia,CUDA,3x224x224,16,10,35.45731999911368,0.4696454055017004,35.01730001880787,36.4191000116989,1517.5546875,1517.58984375,191.201171875,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
-torch_modelo_real_inferencia,CUDA,3x224x224,32,10,70.14008999976795,0.1836477450802643,69.91429999470711,70.44589999713935,1536.16796875,1536.1875,361.69970703125,inferencia com arquitetura real de visao computacional,ok,mobilenet_v2,False,,,,,,,,,,
-torch_modelo_real_inferencia,CPU,3x224x224,1,10,29.840809997403998,1.542928735768875,28.69140001712367,34.01879998273216,1526.75,1526.75,0.0,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
-torch_modelo_real_inferencia,CPU,3x224x224,8,10,158.62464999663644,0.8753799468895421,157.00599999399856,160.11169998091646,1545.38671875,1545.38671875,0.0,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
-torch_modelo_real_inferencia,CPU,3x224x224,16,10,340.0476900074864,4.454315881144305,334.7831999999471,350.07580000092275,1510.859375,1510.41015625,0.0,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
-torch_modelo_real_inferencia,CPU,3x224x224,32,10,614.0557100006845,4.597012870545109,604.8691000032704,620.0150999939069,1515.2109375,1515.21484375,0.0,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
-torch_modelo_real_inferencia,CUDA,3x224x224,1,10,21.31319999753032,21.756410443813497,6.919300009030849,56.683799979509786,1475.7265625,1475.7265625,63.97607421875,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
-torch_modelo_real_inferencia,CUDA,3x224x224,8,10,17.568420004681684,1.182749707271402,15.765500022098422,18.618400004925206,1523.23828125,1523.23828125,107.32275390625,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
-torch_modelo_real_inferencia,CUDA,3x224x224,16,10,29.24727999779861,0.3653776748658887,28.7430000025779,29.71669999533333,1523.61328125,1523.61328125,162.94677734375,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
-torch_modelo_real_inferencia,CUDA,3x224x224,32,10,54.70181999844499,0.2225181098463745,54.33060001814738,55.10560001130216,1527.02734375,1527.02734375,268.1953125,inferencia com arquitetura real de visao computacional,ok,resnet18,False,,,,,,,,,,
-ollama_llm_generate,,,,5,,,,,,,,resumo de geracao local via Ollama API,ok,qwen3.5,,curto_conceitual,38562.93686,509.0088543656286,40625.47938000007,556.7474,824.462,37164.0186,3.444698179560731,0.0466167207289722,128.0
-ollama_llm_generate,,,,5,,,,,,,,resumo de geracao local via Ollama API,ok,qwen3.5,,medio_explicativo,42213.56814,1092.2375968189515,44281.4185199999,1038.15492,904.5884,40240.346,3.182144104198103,0.0703751857666777,128.0
-ollama_llm_generate,,,,5,,,,,,,,resumo de geracao local via Ollama API,ok,qwen3.5,,tecnico_hardware,38708.49128,483.71134953408256,40765.93598000018,927.72944,832.3534,36927.7008,3.466664260160159,0.0431404470165556,128.0
-ollama_llm_generate,,,,5,,,,,,,,resumo de geracao local via Ollama API,ok,gemma3:4b,,curto_conceitual,6793.41238,119.93569619469842,8851.412579999851,737.33464,522.6364,5520.2166,8.154607550090322,0.1663310794216469,45.0
-ollama_llm_generate,,,,5,,,,,,,,resumo de geracao local via Ollama API,ok,gemma3:4b,,medio_explicativo,18020.44998,510.8662242821804,20078.623999999945,754.23366,3373.9276,13880.6558,7.853431720925249,0.0869807994945401,109.0
-ollama_llm_generate,,,,5,,,,,,,,resumo de geracao local via Ollama API,ok,gemma3:4b,,tecnico_hardware,20491.20854,207.7303888364504,22544.26003999997,752.3284600000001,3556.386,16172.9788,7.9153784534868015,0.0963153706748312,128.0
+teste,hardware,tamanho,batch,repeticoes,tempo_medio_ms,tempo_mediana_ms,tempo_desvio_ms,tempo_min_ms,tempo_max_ms,tempo_p95_ms,throughput_itens_s,speedup_cuda_vs_cpu,memoria_inicio_mb,memoria_fim_mb,gpu_peak_mb,status,observacao,arquivo_origem,modelo,pretrained,categoria_tarefa,execucoes,tempo_total_ms_media,tempo_total_ms_p95,tokens_por_segundo_media,tokens_gerados_media,taxa_falha,ram_processo_mb_pico_medio,gpu_media_media,vram_mb_pico_medio
+numpy_matmul_cpu,CPU,512,na,10.0,3.3803,2.725,1.5681,2.0939,7.2059,6.1116,,,519.69,519.75,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.,benchmark_numpy_cpu.csv,,,,,,,,,,,,
+numpy_matmul_cpu,CPU,1024,na,10.0,10.1967,8.6011,2.6163,7.8425,14.2624,14.2365,,,531.66,531.68,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.,benchmark_numpy_cpu.csv,,,,,,,,,,,,
+numpy_matmul_cpu,CPU,1536,na,10.0,41.4351,38.8222,8.911,31.7809,57.6615,54.3527,,,547.43,547.43,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.,benchmark_numpy_cpu.csv,,,,,,,,,,,,
+numpy_matmul_cpu,CPU,2048,na,10.0,86.4215,79.8843,14.1149,70.8477,106.9844,106.6965,,,569.18,569.18,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.,benchmark_numpy_cpu.csv,,,,,,,,,,,,
+torch_matmul,CPU,512,na,10.0,1.2198,1.1398,0.2305,1.0807,1.8288,1.6263,,,524.43,525.81,0.0,ok,Multiplicação de matrizes float32 com PyTorch.,benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_matmul,CPU,1024,na,10.0,13.3148,13.1122,1.8228,10.6768,16.3009,15.757,,,535.96,539.96,0.0,ok,Multiplicação de matrizes float32 com PyTorch.,benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_matmul,CPU,1536,na,10.0,29.6481,29.2439,1.472,27.7518,31.819,31.6909,,,554.79,563.85,0.0,ok,Multiplicação de matrizes float32 com PyTorch.,benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_matmul,CPU,2048,na,10.0,80.2049,76.5032,12.5486,68.0382,101.7836,101.414,,,588.86,604.88,0.0,ok,Multiplicação de matrizes float32 com PyTorch.,benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_mlp_inference,CPU,mlp_1024_2048x2_512,1,10.0,1.1033,1.0875,0.0793,0.9795,1.2536,1.225,906.3718,,605.54,605.55,0.0,ok,"Inferência sintética MLP com entrada aleatória; mede desempenho, não acurácia.",benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_mlp_inference,CPU,mlp_1024_2048x2_512,8,10.0,2.5642,2.5333,0.131,2.4064,2.78,2.7441,3119.8814,,605.73,605.73,0.0,ok,"Inferência sintética MLP com entrada aleatória; mede desempenho, não acurácia.",benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_mlp_inference,CPU,mlp_1024_2048x2_512,16,10.0,3.2576,3.2284,0.2456,2.7039,3.5954,3.5564,4911.5914,,604.26,604.26,0.0,ok,"Inferência sintética MLP com entrada aleatória; mede desempenho, não acurácia.",benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_mlp_inference,CPU,mlp_1024_2048x2_512,32,10.0,3.0056,2.8672,0.254,2.7684,3.4522,3.4044,10646.7927,,604.31,604.31,0.0,ok,"Inferência sintética MLP com entrada aleatória; mede desempenho, não acurácia.",benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_matmul,CUDA,512,na,10.0,0.2405,0.195,0.0843,0.1773,0.4364,0.3781,,5.0719,812.39,812.69,12.12,ok,Multiplicação de matrizes float32 com PyTorch.,benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_matmul,CUDA,1024,na,10.0,1.0651,1.0844,0.0788,0.9311,1.1797,1.1572,,12.501,812.76,812.78,24.12,ok,Multiplicação de matrizes float32 com PyTorch.,benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_matmul,CUDA,1536,na,10.0,2.9343,2.7277,0.643,2.6153,4.7451,3.9209,,10.104,812.8,812.8,44.12,ok,Multiplicação de matrizes float32 com PyTorch.,benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_matmul,CUDA,2048,na,10.0,6.966,7.0918,0.4219,6.3984,7.7212,7.5199,,11.5138,812.8,812.8,72.12,ok,Multiplicação de matrizes float32 com PyTorch.,benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_mlp_inference,CUDA,mlp_1024_2048x2_512,1,10.0,0.5232,0.4655,0.1847,0.4427,1.0479,0.7966,1911.315,2.1088,832.75,832.75,36.16,ok,"Inferência sintética MLP com entrada aleatória; mede desempenho, não acurácia.",benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_mlp_inference,CUDA,mlp_1024_2048x2_512,8,10.0,0.4996,0.4952,0.019,0.4691,0.545,0.529,16012.8102,5.1325,849.7,849.7,36.31,ok,"Inferência sintética MLP com entrada aleatória; mede desempenho, não acurácia.",benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_mlp_inference,CUDA,mlp_1024_2048x2_512,16,10.0,0.6542,0.5817,0.2434,0.5555,1.3455,1.0109,24457.3525,4.9795,849.71,849.71,36.49,ok,"Inferência sintética MLP com entrada aleatória; mede desempenho, não acurácia.",benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+torch_mlp_inference,CUDA,mlp_1024_2048x2_512,32,10.0,0.7164,0.6991,0.0452,0.6778,0.8308,0.7939,44667.7834,4.1954,849.72,849.72,36.83,ok,"Inferência sintética MLP com entrada aleatória; mede desempenho, não acurácia.",benchmark_torch_cpu_gpu.csv,,,,,,,,,,,,
+limite_matmul_cuda,CUDA,2560,na,10.0,13.9739,14.0624,0.2634,13.4602,14.2801,14.2431,,,515.22,724.05,112.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.,benchmark_limite_gpu.csv,,,,,,,,,,,,
+limite_matmul_cuda,CUDA,3072,na,10.0,29.4723,29.1606,1.2233,28.5244,32.7944,31.3784,,,724.11,724.13,152.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.,benchmark_limite_gpu.csv,,,,,,,,,,,,
+limite_matmul_cuda,CUDA,4096,na,10.0,71.5491,68.6553,6.3071,68.3329,87.8112,82.9833,,,724.14,724.15,264.12,ok,Teste de limite da GPU com multiplicacao de matrizes em CUDA.,benchmark_limite_gpu.csv,,,,,,,,,,,,
+torch_cnn_sintetico,CPU,3x224x224,1,10.0,7.8783,7.6876,1.3068,6.0415,10.076,10.0076,126.9309,,532.73,532.9,0.0,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia.",benchmark_cnn_sintetico.csv,,,,,,,,,,,,
+torch_cnn_sintetico,CPU,3x224x224,8,10.0,38.629,38.0125,4.0752,34.3606,45.4256,44.7265,207.0983,,583.8,602.25,0.0,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia.",benchmark_cnn_sintetico.csv,,,,,,,,,,,,
+torch_cnn_sintetico,CPU,3x224x224,16,10.0,74.2419,70.4865,10.8474,64.2035,96.7273,91.3029,215.5117,,653.38,653.38,0.0,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia.",benchmark_cnn_sintetico.csv,,,,,,,,,,,,
+torch_cnn_sintetico,CPU,3x224x224,32,10.0,138.5631,130.6682,19.603,121.8539,179.6415,173.8657,230.9417,,745.17,941.31,0.0,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia.",benchmark_cnn_sintetico.csv,,,,,,,,,,,,
+torch_cnn_sintetico,CUDA,3x224x224,1,10.0,0.9697,1.0236,0.1859,0.6873,1.2198,1.183,1031.2468,8.1245,1263.27,1263.49,14.92,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia.",benchmark_cnn_sintetico.csv,,,,,,,,,,,,
+torch_cnn_sintetico,CUDA,3x224x224,8,10.0,4.4862,4.501,0.0587,4.4072,4.5652,4.558,1783.2464,8.6106,1283.34,1283.36,61.81,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia.",benchmark_cnn_sintetico.csv,,,,,,,,,,,,
+torch_cnn_sintetico,CUDA,3x224x224,16,10.0,8.7625,8.7488,0.0665,8.6745,8.8533,8.8525,1825.9629,8.4727,1284.11,1284.12,117.41,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia.",benchmark_cnn_sintetico.csv,,,,,,,,,,,,
+torch_cnn_sintetico,CUDA,3x224x224,32,10.0,17.2329,17.2108,0.0646,17.183,17.3796,17.3441,1856.9132,8.0406,1290.55,1290.55,222.6,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia.",benchmark_cnn_sintetico.csv,,,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,1,10.0,21.0679,18.3187,6.0622,16.5153,35.3038,30.8144,47.4656,,648.46,648.88,0.0,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,8,10.0,85.9452,84.1719,8.653,75.3094,104.2895,98.6857,93.0826,,781.54,781.56,0.0,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,16,10.0,161.7966,157.7057,12.1765,150.1504,184.3518,184.0124,98.8896,,868.13,941.73,0.0,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,32,10.0,342.2491,343.5502,57.2113,285.1388,475.7456,428.6694,93.4992,,1205.46,1194.66,0.0,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,1,10.0,23.7166,22.7522,4.6768,18.0399,32.6213,31.5811,42.1646,0.8883,1521.1,1521.32,32.23,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,8,10.0,20.1475,18.9458,4.0597,17.3159,29.8572,27.4274,397.0716,4.2658,1569.01,1569.01,105.95,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,16,10.0,32.7741,32.7695,0.2069,32.4347,33.226,33.0767,488.1904,4.9367,1569.5,1569.5,191.2,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,32,10.0,64.791,64.7412,0.1741,64.5132,65.1338,65.057,493.8958,5.2824,1595.57,1595.57,361.7,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,mobilenet_v2,False,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,1,10.0,75.9228,70.9985,12.2441,63.1401,98.6396,96.6808,13.1713,,1614.44,1614.46,not_available,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,resnet18,False,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,8,10.0,370.311,362.844,24.7237,336.7397,410.575,403.1713,21.6035,,1593.99,1593.99,not_available,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,resnet18,False,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,16,10.0,655.0048,663.8289,47.5345,577.9446,720.4238,708.8557,24.4273,,1574.82,1574.39,not_available,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,resnet18,False,,,,,,,,,,
+torch_modelo_real_inferencia,CPU,3x224x224,32,10.0,1224.0703,1224.9277,14.2682,1205.2985,1244.277,1242.6853,26.1423,,1583.36,1583.48,not_available,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,resnet18,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,1,10.0,8.2802,8.1932,0.2771,7.926,8.7685,8.6867,120.77,9.1692,1548.7,1548.7,63.98,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,resnet18,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,8,10.0,15.9859,15.9615,0.0674,15.9134,16.1035,16.0782,500.441,23.1649,1561.64,1561.64,107.32,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,resnet18,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,16,10.0,29.4542,29.4207,0.1165,29.2364,29.6105,29.6078,543.2162,22.2381,1564.58,1564.58,162.95,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,resnet18,False,,,,,,,,,,
+torch_modelo_real_inferencia,CUDA,3x224x224,32,10.0,55.3696,55.3813,0.2483,54.9295,55.6739,55.667,577.9345,22.1073,1565.25,1565.26,268.2,ok,"Arquitetura real com entrada sintetica e sem pesos pretrained; mede desempenho da arquitetura, nao acuracia.",benchmark_modelos_reais.csv,resnet18,False,,,,,,,,,,
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:1b,,explicacao_conceitual_curta,3.0,5405.7934,5510.589,39.3411,67.0,0.0,524.89,13.37,619.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:1b,,explicacao_tecnica_media,3.0,7286.9181,7376.3498,39.7086,128.0,0.0,524.87,19.24,639.67
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:1b,,resumo_texto,3.0,6966.4425,7013.4776,40.053,112.0,0.0,524.87,20.1,649.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:1b,,geracao_codigo_simples,3.0,7087.0671,7100.1601,39.0381,128.0,0.0,524.88,17.29,649.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:1b,,analise_codigo,3.0,7761.3295,7934.1357,36.2778,128.0,0.0,524.86,21.73,649.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:1b,,raciocinio_logico_curto,3.0,5371.2766,5384.0464,40.5967,51.0,0.0,524.88,17.0,649.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:1b,,hardware_ia_local,3.0,7917.4194,8509.9524,32.4546,128.0,0.0,524.89,14.92,649.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:1b,,reescrita_objetiva,3.0,4741.7205,4810.2939,39.7646,33.0,0.0,524.91,10.8,649.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:1b,,tarefa_longa_uso_real,3.0,7342.3888,7382.3665,38.5214,128.0,0.0,524.93,16.29,649.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:1b,,explicacao_conceitual_curta,3.0,4181.5239,4192.9589,36.2497,50.0,0.0,524.94,9.83,623.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:1b,,explicacao_tecnica_media,3.0,6690.0715,7326.9168,33.05,128.0,0.0,525.08,13.71,623.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:1b,,resumo_texto,3.0,3421.4545,3463.2296,36.7894,25.0,0.0,525.09,11.42,623.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:1b,,geracao_codigo_simples,3.0,7198.0578,7419.3846,28.6555,128.0,0.0,525.11,12.05,623.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:1b,,analise_codigo,3.0,7702.7115,7779.5588,26.2549,128.0,0.0,525.13,11.52,623.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:1b,,raciocinio_logico_curto,3.0,4051.6129,4072.0997,36.4077,45.0,0.0,525.14,10.83,623.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:1b,,hardware_ia_local,3.0,7366.5921,7519.5077,27.8393,128.0,0.0,525.15,13.14,623.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:1b,,reescrita_objetiva,3.0,3365.9816,3422.9539,37.1118,23.0,0.0,525.17,9.61,623.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:1b,,tarefa_longa_uso_real,3.0,6229.6222,6257.4285,36.8821,128.0,0.0,525.18,14.83,623.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:3b,,explicacao_conceitual_curta,3.0,7501.3109,7687.9514,19.4707,91.0,0.0,525.2,7.89,623.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:3b,,explicacao_tecnica_media,3.0,13506.7285,14633.9764,12.1467,128.0,0.0,525.23,5.34,623.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:3b,,resumo_texto,3.0,14129.4154,15303.5898,11.3402,128.0,0.0,525.28,5.62,623.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:3b,,geracao_codigo_simples,3.0,6538.9915,7180.2136,18.3755,67.0,0.0,525.3,6.74,623.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:3b,,analise_codigo,3.0,9930.6332,10454.9962,18.0812,128.0,0.0,525.31,7.86,623.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:3b,,raciocinio_logico_curto,3.0,11192.3131,13137.8781,11.857,95.0,0.0,525.34,4.94,625.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:3b,,hardware_ia_local,3.0,12891.1791,13858.6944,12.8008,128.0,0.0,525.37,6.21,625.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:3b,,reescrita_objetiva,3.0,3810.2798,3852.1937,20.8391,22.0,0.0,525.39,5.67,625.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3.2:3b,,tarefa_longa_uso_real,3.0,9782.5976,10177.6032,18.3395,128.0,0.0,525.41,7.93,625.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:4b,,explicacao_conceitual_curta,3.0,8737.1541,8802.3906,13.9759,70.0,0.0,525.44,0.0,167.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:4b,,explicacao_tecnica_media,3.0,16581.3549,17030.6071,12.8714,128.0,0.0,525.47,14.31,177.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:4b,,resumo_texto,3.0,23961.9596,25571.2336,7.4389,128.0,0.0,525.52,11.81,177.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:4b,,geracao_codigo_simples,3.0,15789.4579,16120.911,11.1781,128.0,0.0,525.56,0.2,177.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:4b,,analise_codigo,3.0,22942.2301,26401.8659,8.4175,128.0,0.0,525.61,12.87,177.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:4b,,raciocinio_logico_curto,3.0,13173.6442,13760.8353,9.6235,62.0,0.0,525.64,23.68,191.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:4b,,hardware_ia_local,3.0,17151.6667,18354.447,10.5286,128.0,0.0,525.68,0.19,191.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:4b,,reescrita_objetiva,3.0,17578.4334,19879.3852,8.8857,110.0,0.0,525.71,0.12,191.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,gemma3:4b,,tarefa_longa_uso_real,3.0,18908.9423,19879.6672,10.6532,128.0,0.0,525.77,16.76,191.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3:8b,,explicacao_conceitual_curta,3.0,33789.9917,34117.579,3.4771,107.0,0.0,525.84,1.4,611.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3:8b,,explicacao_tecnica_media,3.0,38070.9315,39281.8915,3.6433,128.0,0.0,510.1,1.56,611.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3:8b,,resumo_texto,3.0,27420.4577,27600.6384,4.1189,101.0,0.0,478.59,1.67,611.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3:8b,,geracao_codigo_simples,3.0,36981.4448,38331.4535,3.7699,128.0,0.0,478.66,1.88,611.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3:8b,,analise_codigo,3.0,34225.936,34385.796,4.0839,128.0,0.0,410.62,1.81,611.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3:8b,,raciocinio_logico_curto,3.0,22893.3219,23094.631,4.2012,84.0,0.0,410.95,1.5,611.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3:8b,,hardware_ia_local,3.0,34480.6222,34672.301,4.0423,128.0,0.0,371.64,1.87,611.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3:8b,,reescrita_objetiva,3.0,21683.6804,22182.9479,3.9921,75.0,0.0,352.02,1.93,611.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,llama3:8b,,tarefa_longa_uso_real,3.0,43805.5974,51803.4689,3.2426,128.0,0.0,352.1,1.83,611.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen3.5:latest,,explicacao_conceitual_curta,3.0,37514.0686,42186.7718,3.8591,128.0,0.0,352.2,0.5,189.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen3.5:latest,,explicacao_tecnica_media,3.0,40800.5597,41487.1519,3.4293,128.0,0.0,328.82,0.44,199.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen3.5:latest,,resumo_texto,3.0,38189.525,38241.2349,3.6901,128.0,0.0,328.95,0.64,199.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen3.5:latest,,geracao_codigo_simples,3.0,39139.6935,39778.7749,3.6,128.0,0.0,268.04,0.57,199.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen3.5:latest,,analise_codigo,3.0,38703.7353,38965.9974,3.6354,128.0,0.0,268.16,0.59,199.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen3.5:latest,,raciocinio_logico_curto,3.0,40013.9446,42619.9564,3.5184,128.0,0.0,246.01,0.45,199.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen3.5:latest,,hardware_ia_local,3.0,42174.7701,43762.2281,3.3276,128.0,0.0,246.12,0.47,199.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen3.5:latest,,reescrita_objetiva,3.0,38986.1163,39579.3235,3.6121,128.0,0.0,246.29,0.59,199.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen3.5:latest,,tarefa_longa_uso_real,3.0,29369.9301,32966.4462,5.0067,128.0,0.0,237.55,0.8,199.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen2.5-coder:14b,,explicacao_conceitual_curta,3.0,29228.3149,30877.7477,3.3218,87.0,0.0,219.92,0.0,207.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen2.5-coder:14b,,explicacao_tecnica_media,3.0,43657.0599,45413.1129,3.1447,128.0,0.0,219.41,0.0,207.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen2.5-coder:14b,,resumo_texto,3.0,42761.368,46366.4053,3.2384,128.0,0.0,218.33,0.0,207.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen2.5-coder:14b,,geracao_codigo_simples,3.0,41720.7019,44616.3836,3.3078,128.0,0.0,215.93,0.0,207.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen2.5-coder:14b,,analise_codigo,3.0,39382.9625,41332.8377,3.5155,128.0,0.0,217.93,0.0,207.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen2.5-coder:14b,,raciocinio_logico_curto,3.0,28348.7076,31391.1136,2.9764,74.0,0.0,211.45,0.0,207.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen2.5-coder:14b,,hardware_ia_local,3.0,45446.7469,48408.5059,3.0383,128.0,0.0,211.56,0.0,207.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen2.5-coder:14b,,reescrita_objetiva,3.0,7118.9376,7183.6907,4.4844,19.0,0.0,211.59,0.0,207.0
+,,,,,,,,,,,,,,,,ok,,benchmark_ollama_llms.csv,qwen2.5-coder:14b,,tarefa_longa_uso_real,3.0,45468.7649,50856.1231,3.0375,128.0,0.0,211.71,0.0,207.0

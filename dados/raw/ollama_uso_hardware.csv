@@ -1,0 +1,8 @@
+modelo,cpu_media,ram_processo_mb_pico,gpu_media,vram_mb_pico
+gemma3:1b,,524.89,16.75,644.63
+llama3.2:1b,,525.11,11.88,623.0
+llama3.2:3b,,525.31,6.47,623.89
+gemma3:4b,,525.6,8.88,182.11
+llama3:8b,,432.28,1.72,611.0
+qwen3.5:latest,,280.24,0.56,197.89
+qwen2.5-coder:14b,,215.31,0.0,207.0

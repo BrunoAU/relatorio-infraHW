@@ -1,9 +1,9 @@
-teste,hardware,tamanho,batch,repeticoes,tempo_medio_ms,tempo_desvio_ms,tempo_min_ms,tempo_max_ms,memoria_inicio_mb,memoria_fim_mb,gpu_peak_mb,status,observacao
-torch_cnn_sintetico,CPU,3x224x224,1,10,5.394049998722039,0.22079514649752657,5.128899996634573,5.871799978194758,524.61328125,524.64453125,0.0,ok,CNN sintetico com entrada de imagem
-torch_cnn_sintetico,CPU,3x224x224,8,10,33.99543999112211,0.2847579896653937,33.60090000205673,34.336899989284575,594.03515625,594.03515625,0.0,ok,CNN sintetico com entrada de imagem
-torch_cnn_sintetico,CPU,3x224x224,16,10,62.266130006173626,0.9210151547293947,61.04679999407381,64.07049999688752,645.125,645.125,0.0,ok,CNN sintetico com entrada de imagem
-torch_cnn_sintetico,CPU,3x224x224,32,10,130.15731000341475,23.123433625407717,117.77300000539981,194.19249999918975,737.078125,933.22265625,0.0,ok,CNN sintetico com entrada de imagem
-torch_cnn_sintetico,CUDA,3x224x224,1,10,1.0703399981139228,0.10263084763073091,0.9277999924961478,1.2246000114828348,1205.97265625,1206.10546875,14.9189453125,ok,CNN sintetico com entrada de imagem
-torch_cnn_sintetico,CUDA,3x224x224,8,10,6.303240003762767,0.24136183407443657,6.043300003511831,6.7860000126529485,1224.7421875,1224.7890625,61.8134765625,ok,CNN sintetico com entrada de imagem
-torch_cnn_sintetico,CUDA,3x224x224,16,10,12.047100003110245,0.3327110360325401,11.69429998844862,12.47509999666363,1225.40625,1225.47265625,117.40771484375,ok,CNN sintetico com entrada de imagem
-torch_cnn_sintetico,CUDA,3x224x224,32,10,21.131990000139922,0.244407170723318,20.832300011534244,21.626400004606694,1231.76171875,1231.859375,222.595703125,ok,CNN sintetico com entrada de imagem
+teste,hardware,tamanho,batch,repeticoes,tempo_medio_ms,tempo_mediana_ms,tempo_desvio_ms,tempo_min_ms,tempo_max_ms,tempo_p95_ms,throughput_itens_s,speedup_cuda_vs_cpu,memoria_inicio_mb,memoria_fim_mb,gpu_peak_mb,status,observacao
+torch_cnn_sintetico,CPU,3x224x224,1,10,7.8783,7.6876,1.3068,6.0415,10.076,10.0076,126.9309,,532.73,532.9,0.0,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia."
+torch_cnn_sintetico,CPU,3x224x224,8,10,38.629,38.0125,4.0752,34.3606,45.4256,44.7265,207.0983,,583.8,602.25,0.0,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia."
+torch_cnn_sintetico,CPU,3x224x224,16,10,74.2419,70.4865,10.8474,64.2035,96.7273,91.3029,215.5117,,653.38,653.38,0.0,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia."
+torch_cnn_sintetico,CPU,3x224x224,32,10,138.5631,130.6682,19.603,121.8539,179.6415,173.8657,230.9417,,745.17,941.31,0.0,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia."
+torch_cnn_sintetico,CUDA,3x224x224,1,10,0.9697,1.0236,0.1859,0.6873,1.2198,1.183,1031.2468,8.1245,1263.27,1263.49,14.92,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia."
+torch_cnn_sintetico,CUDA,3x224x224,8,10,4.4862,4.501,0.0587,4.4072,4.5652,4.558,1783.2464,8.6106,1283.34,1283.36,61.81,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia."
+torch_cnn_sintetico,CUDA,3x224x224,16,10,8.7625,8.7488,0.0665,8.6745,8.8533,8.8525,1825.9629,8.4727,1284.11,1284.12,117.41,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia."
+torch_cnn_sintetico,CUDA,3x224x224,32,10,17.2329,17.2108,0.0646,17.183,17.3796,17.3441,1856.9132,8.0406,1290.55,1290.55,222.6,ok,"CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia."

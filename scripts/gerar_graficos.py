@@ -1,279 +1,161 @@
 from pathlib import Path
 
+from bootstrap import ensure_local_deps
+
+ensure_local_deps()
+
 import matplotlib.pyplot as plt
 import pandas as pd
+from pandas.errors import EmptyDataError
+from common import CHARTS, PROCESSED, RAW, ensure_dirs
 
 
-ROOT = Path(__file__).resolve().parents[1]
-RAW = ROOT / "dados" / "raw"
-PROCESSED = ROOT / "dados" / "processed"
-TABLES = ROOT / "resultados" / "tabelas"
-CHARTS = ROOT / "resultados" / "graficos"
+def load_csv(path: Path):
+    if path.exists():
+        try:
+            return pd.read_csv(path)
+        except EmptyDataError:
+            return pd.DataFrame()
+    return pd.DataFrame()
 
 
-def load_data():
-    frames = []
-
-    paths = [
-        RAW / "benchmark_numpy_cpu.csv",
-        RAW / "benchmark_torch_cpu_gpu.csv",
-        RAW / "benchmark_limite_gpu.csv",
-        RAW / "benchmark_cnn_sintetico.csv",
-        RAW / "benchmark_modelos_reais.csv",
-    ]
-
-    for path in paths:
-        if path.exists():
-            frames.append(pd.read_csv(path))
-
-    if len(frames) == 0:
-        raise FileNotFoundError("Nenhum CSV de benchmark encontrado em dados/raw.")
-
-    return pd.concat(frames, ignore_index=True)
-
-
-def save_consolidated(df):
-    PROCESSED.mkdir(parents=True, exist_ok=True)
-    TABLES.mkdir(parents=True, exist_ok=True)
-
-    consolidated = PROCESSED / "resultados_consolidados.csv"
-    df.to_csv(consolidated, index=False)
-
-    preferred_columns = [
-        "teste",
-        "modelo",
-        "pretrained",
-        "hardware",
-        "tamanho",
-        "batch",
-        "repeticoes",
-        "tempo_medio_ms",
-        "tempo_desvio_ms",
-        "tempo_min_ms",
-        "tempo_max_ms",
-        "memoria_inicio_mb",
-        "memoria_fim_mb",
-        "gpu_peak_mb",
-        "status",
-        "observacao",
-    ]
-
-    existing_columns = []
-
-    for column in preferred_columns:
-        if column in df.columns:
-            existing_columns.append(column)
-
-    summary = df[existing_columns]
-    summary.to_csv(TABLES / "tabela_resultados_artigo.csv", index=False)
-
-    print(f"Dados consolidados salvos em: {consolidated}")
-    print(f"Tabela do artigo salva em: {TABLES / 'tabela_resultados_artigo.csv'}")
-
-
-def plot_matmul(df):
-    CHARTS.mkdir(parents=True, exist_ok=True)
-
-    subset = df[df["teste"].isin(["numpy_matmul_cpu", "torch_matmul"])].copy()
-
-    if subset.empty:
-        return
-
-    subset["label"] = subset["teste"] + " - " + subset["hardware"]
-
-    plt.figure(figsize=(9, 5))
-
-    for label, group in subset.groupby("label"):
-        group = group.sort_values("tamanho")
-        yerr = group["tempo_desvio_ms"] if "tempo_desvio_ms" in group.columns else None
-
-        plt.errorbar(
-            group["tamanho"].astype(str),
-            group["tempo_medio_ms"],
-            yerr=yerr,
-            marker="o",
-            capsize=4,
-            label=label,
-        )
-
-    plt.xlabel("Tamanho da matriz")
-    plt.ylabel("Tempo médio (ms)")
-    plt.title("Comparação de tempo em multiplicação de matrizes")
-    plt.legend()
+def save_plot(path: Path):
     plt.tight_layout()
-
-    path = CHARTS / "tempo_matmul.png"
     plt.savefig(path, dpi=150)
     plt.close()
 
-    print(f"Gráfico salvo em: {path}")
 
-
-def plot_mlp(df):
-    subset = df[df["teste"] == "torch_mlp_inference"].copy()
-
-    if subset.empty:
+def line_plot(df, x, y, hue, title, xlabel, ylabel, path):
+    if df.empty or y not in df.columns:
         return
-
-    subset["batch"] = pd.to_numeric(subset["batch"], errors="coerce")
-    subset = subset.sort_values("batch")
-
-    plt.figure(figsize=(9, 5))
-
-    for hardware, group in subset.groupby("hardware"):
-        group = group.sort_values("batch")
-        yerr = group["tempo_desvio_ms"] if "tempo_desvio_ms" in group.columns else None
-
-        plt.errorbar(
-            group["batch"].astype(int).astype(str),
-            group["tempo_medio_ms"],
-            yerr=yerr,
-            marker="o",
-            capsize=4,
-            label=hardware,
-        )
-
-    plt.xlabel("Batch")
-    plt.ylabel("Tempo médio (ms)")
-    plt.title("Inferência local em MLP sintético")
+    plt.figure(figsize=(10, 5))
+    for label, group in df.groupby(hue):
+        group = group.sort_values(x)
+        plt.plot(group[x].astype(str), group[y], marker="o", label=label)
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
     plt.legend()
-    plt.tight_layout()
-
-    path = CHARTS / "tempo_mlp_inferencia.png"
-    plt.savefig(path, dpi=150)
-    plt.close()
-
-    print(f"Gráfico salvo em: {path}")
+    save_plot(path)
 
 
-def plot_cnn(df):
-    subset = df[df["teste"] == "torch_cnn_sintetico"].copy()
-
-    if subset.empty:
+def bar_plot(df, x, y, title, xlabel, ylabel, path):
+    if df.empty or y not in df.columns:
         return
-
-    subset["batch"] = pd.to_numeric(subset["batch"], errors="coerce")
-    subset = subset.sort_values("batch")
-
-    plt.figure(figsize=(9, 5))
-
-    for hardware, group in subset.groupby("hardware"):
-        group = group.sort_values("batch")
-        yerr = group["tempo_desvio_ms"] if "tempo_desvio_ms" in group.columns else None
-
-        plt.errorbar(
-            group["batch"].astype(int).astype(str),
-            group["tempo_medio_ms"],
-            yerr=yerr,
-            marker="o",
-            capsize=4,
-            label=hardware,
-        )
-
-    plt.xlabel("Batch")
-    plt.ylabel("Tempo médio (ms)")
-    plt.title("Inferência local em CNN sintético")
-    plt.legend()
-    plt.tight_layout()
-
-    path = CHARTS / "tempo_cnn_sintetico.png"
-    plt.savefig(path, dpi=150)
-    plt.close()
-
-    print(f"Gráfico salvo em: {path}")
+    plt.figure(figsize=(10, 5))
+    plt.bar(df[x].astype(str), df[y])
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.xticks(rotation=20, ha="right")
+    save_plot(path)
 
 
-def plot_limite_gpu(df):
-    subset = df[df["teste"] == "limite_matmul_cuda"].copy()
-
-    if subset.empty:
+def scatter_plot(df, x, y, label, title, xlabel, ylabel, path):
+    if df.empty or x not in df.columns or y not in df.columns:
         return
-
-    subset = subset[subset["status"] == "ok"].copy()
-
-    if subset.empty:
-        return
-
-    subset = subset.sort_values("tamanho")
-
-    plt.figure(figsize=(9, 5))
-
-    yerr = subset["tempo_desvio_ms"] if "tempo_desvio_ms" in subset.columns else None
-
-    plt.errorbar(
-        subset["tamanho"].astype(str),
-        subset["tempo_medio_ms"],
-        yerr=yerr,
-        marker="o",
-        capsize=4,
-        label="CUDA",
-    )
-
-    plt.xlabel("Tamanho da matriz")
-    plt.ylabel("Tempo médio (ms)")
-    plt.title("Teste de limite da GPU em multiplicação de matrizes")
-    plt.legend()
-    plt.tight_layout()
-
-    path = CHARTS / "tempo_limite_gpu.png"
-    plt.savefig(path, dpi=150)
-    plt.close()
-
-    print(f"Gráfico salvo em: {path}")
-
-
-def plot_modelos_reais(df):
-    subset = df[df["teste"] == "torch_modelo_real_inferencia"].copy()
-
-    if subset.empty:
-        return
-
-    subset = subset[subset["status"] == "ok"].copy()
-
-    if subset.empty:
-        return
-
-    subset["batch"] = pd.to_numeric(subset["batch"], errors="coerce")
-    subset = subset.sort_values("batch")
-
-    for modelo, df_modelo in subset.groupby("modelo"):
-        plt.figure(figsize=(9, 5))
-
-        for hardware, group in df_modelo.groupby("hardware"):
-            group = group.sort_values("batch")
-            yerr = group["tempo_desvio_ms"] if "tempo_desvio_ms" in group.columns else None
-
-            plt.errorbar(
-                group["batch"].astype(int).astype(str),
-                group["tempo_medio_ms"],
-                yerr=yerr,
-                marker="o",
-                capsize=4,
-                label=hardware,
-            )
-
-        plt.xlabel("Batch")
-        plt.ylabel("Tempo médio (ms)")
-        plt.title(f"Inferência local em modelo real: {modelo}")
-        plt.legend()
-        plt.tight_layout()
-
-        path = CHARTS / f"tempo_modelo_real_{modelo}.png"
-        plt.savefig(path, dpi=150)
-        plt.close()
-
-        print(f"Gráfico salvo em: {path}")
+    plt.figure(figsize=(8, 5))
+    plt.scatter(df[x], df[y])
+    for _, row in df.iterrows():
+        plt.annotate(str(row[label]), (row[x], row[y]), fontsize=8)
+    plt.title(title)
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    save_plot(path)
 
 
 def main():
-    df = load_data()
+    ensure_dirs()
+    CHARTS.mkdir(parents=True, exist_ok=True)
+    consolidated = load_csv(PROCESSED / "resultados_consolidados.csv")
+    if consolidated.empty:
+        consolidated = pd.concat(
+            [frame for frame in [load_csv(RAW / "benchmark_numpy_cpu.csv"), load_csv(RAW / "benchmark_torch_cpu_gpu.csv"), load_csv(RAW / "benchmark_cnn_sintetico.csv"), load_csv(RAW / "benchmark_modelos_reais.csv"), load_csv(RAW / "benchmark_limite_gpu.csv")] if not frame.empty],
+            ignore_index=True,
+        )
 
-    save_consolidated(df)
-    plot_matmul(df)
-    plot_mlp(df)
-    plot_cnn(df)
-    plot_limite_gpu(df)
-    plot_modelos_reais(df)
+    matmul = consolidated[consolidated["teste"].isin(["numpy_matmul_cpu", "torch_matmul"])].copy() if not consolidated.empty else pd.DataFrame()
+    if not matmul.empty:
+        matmul["serie"] = matmul["teste"].astype(str) + "_" + matmul["hardware"].astype(str)
+        line_plot(matmul, "tamanho", "tempo_medio_ms", "serie", "Tempo de matmul por backend", "Tamanho da matriz", "Tempo medio (ms)", CHARTS / "tempo_matmul.png")
+
+    mlp = consolidated[consolidated["teste"] == "torch_mlp_inference"].copy() if not consolidated.empty else pd.DataFrame()
+    if not mlp.empty:
+        line_plot(mlp, "batch", "tempo_medio_ms", "hardware", "MLP por batch", "Batch", "Tempo medio (ms)", CHARTS / "tempo_mlp_inferencia.png")
+
+    cnn = consolidated[consolidated["teste"] == "torch_cnn_sintetico"].copy() if not consolidated.empty else pd.DataFrame()
+    if not cnn.empty:
+        line_plot(cnn, "batch", "tempo_medio_ms", "hardware", "CNN sintetica por batch", "Batch", "Tempo medio (ms)", CHARTS / "tempo_cnn_sintetico.png")
+
+    gpu_limit = consolidated[consolidated["teste"] == "limite_matmul_cuda"].copy() if not consolidated.empty else pd.DataFrame()
+    if not gpu_limit.empty:
+        line_plot(gpu_limit[gpu_limit["status"] == "ok"], "tamanho", "tempo_medio_ms", "hardware", "Tempo limite GPU", "Tamanho da matriz", "Tempo medio (ms)", CHARTS / "tempo_limite_gpu.png")
+
+    vision = consolidated[consolidated["teste"] == "torch_modelo_real_inferencia"].copy() if not consolidated.empty else pd.DataFrame()
+    if not vision.empty:
+        for model, group in vision.groupby("modelo"):
+            line_plot(group[group["status"] == "ok"], "batch", "tempo_medio_ms", "hardware", f"{model} por batch", "Batch", "Tempo medio (ms)", CHARTS / f"tempo_modelo_real_{model}.png")
+
+    speedups = load_csv(Path(RAW.parent.parent / "resultados" / "tabelas" / "speedups_cpu_cuda.csv"))
+    if not speedups.empty and "speedup_cuda_vs_cpu" in speedups.columns:
+        speedups = speedups.copy()
+        label_cols = [col for col in ["teste", "modelo", "tamanho", "batch"] if col in speedups.columns]
+        speedups["label"] = speedups[label_cols].apply(
+            lambda row: " | ".join(str(value) for value in row.fillna("na").tolist()),
+            axis=1,
+        )
+        bar_plot(speedups, "label", "speedup_cuda_vs_cpu", "Speedup CUDA vs CPU", "Configuracao", "Speedup", CHARTS / "speedup_cuda_vs_cpu.png")
+
+    ollama_exec = load_csv(RAW / "ollama_benchmark_resumo.csv")
+    ollama_models = load_csv(RAW / "ollama_modelos_resumo.csv")
+    ollama_tasks = load_csv(RAW / "ollama_por_tarefa.csv")
+    ollama_hw = load_csv(RAW / "ollama_uso_hardware.csv")
+    ollama_viability = load_csv(RAW / "ollama_viabilidade_pratica.csv")
+    ollama_trace = load_csv(RAW / "ollama_hardware_trace.csv")
+
+    if not ollama_models.empty:
+        bar_plot(ollama_models[ollama_models["status"] == "ok"], "modelo", "tempo_total_ms_media", "Tempo total dos LLMs", "Modelo", "Tempo medio (ms)", CHARTS / "tempo_ollama_llms_total.png")
+        bar_plot(ollama_models[ollama_models["status"] == "ok"], "modelo", "tokens_por_segundo_media", "Tokens/s dos LLMs", "Modelo", "Tokens/s", CHARTS / "tokens_ollama_llms.png")
+        bar_plot(ollama_models[ollama_models["status"] == "ok"], "modelo", "ram_processo_mb_pico_medio", "Pico de RAM por modelo", "Modelo", "RAM processo pico media (MB)", CHARTS / "ollama_pico_ram_por_modelo.png")
+        bar_plot(ollama_models[ollama_models["status"] == "ok"], "modelo", "gpu_media_media", "Uso medio de GPU por modelo", "Modelo", "GPU media (%)", CHARTS / "ollama_gpu_media_por_modelo.png")
+        bar_plot(ollama_models[ollama_models["status"] == "ok"], "modelo", "vram_mb_pico_medio", "Pico de VRAM por modelo", "Modelo", "VRAM pico media (MB)", CHARTS / "ollama_pico_vram_por_modelo.png")
+        scatter_plot(ollama_models[ollama_models["status"] == "ok"], "tempo_total_ms_media", "ram_processo_mb_pico_medio", "modelo", "Tempo de resposta vs uso de RAM", "Tempo medio (ms)", "RAM processo pico media (MB)", CHARTS / "ollama_tempo_vs_hardware.png")
+
+    if not ollama_tasks.empty:
+        line_plot(ollama_tasks[ollama_tasks["status"] == "ok"], "categoria_tarefa", "tokens_por_segundo_media", "modelo", "Tokens/s por categoria de tarefa", "Categoria", "Tokens/s", CHARTS / "ollama_tokens_por_tarefa.png")
+
+    if not ollama_hw.empty:
+        bar_plot(ollama_hw, "modelo", "cpu_media", "Uso medio de CPU por modelo", "Modelo", "CPU media (%)", CHARTS / "ollama_cpu_medio_por_modelo.png")
+
+    if not ollama_viability.empty and "classificacao_viabilidade" in ollama_viability.columns:
+        counts = ollama_viability["classificacao_viabilidade"].value_counts().reset_index()
+        counts.columns = ["classificacao_viabilidade", "quantidade"]
+        bar_plot(counts, "classificacao_viabilidade", "quantidade", "Viabilidade pratica dos modelos Ollama", "Classe", "Quantidade", CHARTS / "ollama_viabilidade_pratica.png")
+        if "status" in ollama_viability.columns:
+            status_counts = ollama_viability["status"].value_counts().reset_index()
+            status_counts.columns = ["status", "quantidade"]
+            bar_plot(status_counts, "status", "quantidade", "Taxa de sucesso, skip ou erro por modelo", "Status", "Quantidade", CHARTS / "ollama_taxa_status.png")
+
+    if not ollama_trace.empty:
+        rep = ollama_trace.sort_values(["modelo", "categoria_tarefa", "repeticao", "tempo_relativo_s"]).head(50).copy()
+        plt.figure(figsize=(10, 5))
+        if "cpu_percent" in rep.columns:
+            plt.plot(rep["tempo_relativo_s"], rep["cpu_percent"], label="CPU%")
+        if "ram_process_mb" in rep.columns:
+            plt.plot(rep["tempo_relativo_s"], rep["ram_process_mb"], label="RAM processo MB")
+        if "gpu_percent" in rep.columns:
+            numeric_gpu = pd.to_numeric(rep["gpu_percent"], errors="coerce")
+            if numeric_gpu.notna().any():
+                plt.plot(rep["tempo_relativo_s"], numeric_gpu, label="GPU%")
+        if "vram_used_mb" in rep.columns:
+            numeric_vram = pd.to_numeric(rep["vram_used_mb"], errors="coerce")
+            if numeric_vram.notna().any():
+                plt.plot(rep["tempo_relativo_s"], numeric_vram, label="VRAM MB")
+        plt.title("Serie temporal representativa de uso de hardware no Ollama")
+        plt.xlabel("Tempo relativo (s)")
+        plt.ylabel("Uso")
+        plt.legend()
+        save_plot(CHARTS / "ollama_serie_temporal_representativa.png")
 
 
 if __name__ == "__main__":

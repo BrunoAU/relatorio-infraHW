@@ -1,255 +1,151 @@
-from pathlib import Path
-import csv
-import statistics
 import time
 
-import psutil
+from bootstrap import ensure_local_deps
+
+ensure_local_deps()
+
 import torch
 import torch.nn as nn
-
-
-ROOT = Path(__file__).resolve().parents[1]
-RAW = ROOT / "dados" / "raw"
-
-BATCHES = [1, 8, 16, 32]
-REPETICOES = 10
-AQUECIMENTOS = 2
-ALTURA = 224
-LARGURA = 224
-CANAIS = 3
+from common import (
+    RAW,
+    calculate_speedups,
+    clear_cuda_cache,
+    cuda_peak_mb,
+    cuda_sync,
+    ensure_dirs,
+    load_config,
+    process_memory_mb,
+    reset_cuda_peak,
+    set_seeds,
+    throughput_items_per_second,
+    timing_stats_ms,
+    write_csv,
+)
 
 
 class CNNSintetica(nn.Module):
     def __init__(self):
         super().__init__()
-
         self.rede = nn.Sequential(
             nn.Conv2d(3, 16, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.MaxPool2d(2),
-
             nn.Conv2d(16, 32, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.MaxPool2d(2),
-
             nn.Conv2d(32, 64, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.AdaptiveAvgPool2d((1, 1)),
-
             nn.Flatten(),
-            nn.Linear(64, 10)
+            nn.Linear(64, 10),
         )
 
     def forward(self, x):
         return self.rede(x)
 
 
-def memoria_ram_mb():
-    processo = psutil.Process()
-    return processo.memory_info().rss / (1024 ** 2)
-
-
-def sincronizar(device):
-    if device.type == "cuda":
-        torch.cuda.synchronize()
-
-
-def limpar_cuda():
+def devices():
+    result = [torch.device("cpu")]
     if torch.cuda.is_available():
-        torch.cuda.empty_cache()
-        torch.cuda.reset_peak_memory_stats()
+        result.append(torch.device("cuda"))
+    return result
 
 
-def criar_dispositivos():
-    dispositivos = [torch.device("cpu")]
-
-    if torch.cuda.is_available():
-        dispositivos.append(torch.device("cuda"))
-
-    return dispositivos
-
-
-def executar_cnn(device, batch):
-    if device.type == "cuda":
-        limpar_cuda()
-
-    modelo = CNNSintetica().to(device)
-    modelo.eval()
-
-    entrada = torch.randn((batch, CANAIS, ALTURA, LARGURA), device=device)
-
+def run(device, batch, repetitions, warmups, shape):
+    c, h, w = shape
+    hardware = device.type.upper()
+    model = CNNSintetica().to(device)
+    model.eval()
+    x = torch.randn((batch, c, h, w), device=device)
     with torch.no_grad():
-        for _ in range(AQUECIMENTOS):
-            saida = modelo(entrada)
-            sincronizar(device)
+        for _ in range(warmups):
+            _ = model(x)
+            cuda_sync(device)
+    reset_cuda_peak(device)
 
-    tempos = []
-    memoria_inicio = memoria_ram_mb()
+    times = []
+    details = []
+    mem_before = process_memory_mb()
+    status = "ok"
+    observation = "CNN sintética com entrada aleatória; mede desempenho da arquitetura, não acurácia."
+    try:
+        with torch.no_grad():
+            for repetition in range(1, repetitions + 1):
+                cuda_sync(device)
+                start = time.perf_counter()
+                y = model(x)
+                cuda_sync(device)
+                elapsed = time.perf_counter() - start
+                _ = float(y[0, 0].detach().cpu())
+                times.append(elapsed)
+                details.append(
+                    {
+                        "teste": "torch_cnn_sintetico",
+                        "hardware": hardware,
+                        "tamanho": f"{c}x{h}x{w}",
+                        "batch": batch,
+                        "repeticao": repetition,
+                        "tempo_ms": round(elapsed * 1000, 4),
+                        "memoria_ram_mb": round(process_memory_mb(), 2),
+                        "gpu_peak_mb": cuda_peak_mb(device),
+                        "status": status,
+                        "observacao": observation,
+                    }
+                )
+    except RuntimeError as exc:
+        status = "erro"
+        observation = str(exc).replace("\n", " ")[:250]
 
-    with torch.no_grad():
-        for repeticao in range(1, REPETICOES + 1):
-            if device.type == "cuda":
-                limpar_cuda()
-
-            inicio = time.perf_counter()
-            saida = modelo(entrada)
-            sincronizar(device)
-            fim = time.perf_counter()
-
-            tempo_ms = (fim - inicio) * 1000
-
-            if device.type == "cuda":
-                gpu_peak_mb = torch.cuda.max_memory_allocated() / (1024 ** 2)
-            else:
-                gpu_peak_mb = 0.0
-
-            tempos.append({
-                "teste": "torch_cnn_sintetico",
-                "hardware": "CUDA" if device.type == "cuda" else "CPU",
-                "tamanho": f"{CANAIS}x{ALTURA}x{LARGURA}",
-                "batch": batch,
-                "repeticao": repeticao,
-                "tempo_ms": tempo_ms,
-                "memoria_ram_mb": memoria_ram_mb(),
-                "gpu_peak_mb": gpu_peak_mb,
-                "status": "ok",
-                "observacao": "CNN sintetico com entrada de imagem"
-            })
-
-    memoria_fim = memoria_ram_mb()
-    tempo_lista = [linha["tempo_ms"] for linha in tempos]
-    gpu_lista = [linha["gpu_peak_mb"] for linha in tempos]
-
-    resumo = {
+    st = timing_stats_ms(times)
+    summary = {
         "teste": "torch_cnn_sintetico",
-        "hardware": "CUDA" if device.type == "cuda" else "CPU",
-        "tamanho": f"{CANAIS}x{ALTURA}x{LARGURA}",
+        "hardware": hardware,
+        "tamanho": f"{c}x{h}x{w}",
         "batch": batch,
-        "repeticoes": REPETICOES,
-        "tempo_medio_ms": statistics.mean(tempo_lista),
-        "tempo_desvio_ms": statistics.stdev(tempo_lista) if len(tempo_lista) > 1 else 0.0,
-        "tempo_min_ms": min(tempo_lista),
-        "tempo_max_ms": max(tempo_lista),
-        "memoria_inicio_mb": memoria_inicio,
-        "memoria_fim_mb": memoria_fim,
-        "gpu_peak_mb": max(gpu_lista),
-        "status": "ok",
-        "observacao": "CNN sintetico com entrada de imagem"
+        "repeticoes": len(times),
+        **st,
+        "throughput_itens_s": throughput_items_per_second(batch, st["tempo_medio_ms"]),
+        "speedup_cuda_vs_cpu": "",
+        "memoria_inicio_mb": round(mem_before, 2),
+        "memoria_fim_mb": round(process_memory_mb(), 2),
+        "gpu_peak_mb": cuda_peak_mb(device),
+        "status": status,
+        "observacao": observation,
     }
-
-    del modelo
-    del entrada
-    del saida
-
-    if device.type == "cuda":
-        limpar_cuda()
-
-    return resumo, tempos
-
-
-def salvar_csv(path, linhas, campos):
-    with open(path, "w", newline="", encoding="utf-8") as arquivo:
-        writer = csv.DictWriter(arquivo, fieldnames=campos)
-        writer.writeheader()
-        writer.writerows(linhas)
+    del model, x
+    if "y" in locals():
+        del y
+    clear_cuda_cache()
+    return summary, details
 
 
 def main():
-    RAW.mkdir(parents=True, exist_ok=True)
+    ensure_dirs()
+    config = load_config()
+    set_seeds(int(config.get("seed", 42)))
+    repetitions = int(config.get("repetitions", 3))
+    warmups = int(config.get("warmups", 1))
+    batches = config.get("batches", [1, 8])
+    vision = config.get("vision_input", {})
+    shape = (int(vision.get("channels", 3)), int(vision.get("height", 224)), int(vision.get("width", 224)))
 
-    print("Benchmark CNN sintético com entrada de imagem")
-    print(f"PyTorch: {torch.__version__}")
-    print(f"CUDA disponível: {torch.cuda.is_available()}")
+    summaries = []
+    details = []
+    for device in devices():
+        for batch in batches:
+            print(f"CNN sintética {device} batch {batch}")
+            summary, rows = run(device, int(batch), repetitions, warmups, shape)
+            summaries.append(summary)
+            details.extend(rows)
 
-    if torch.cuda.is_available():
-        print(f"GPU detectada: {torch.cuda.get_device_name(0)}")
+    speedups = calculate_speedups(summaries, ["teste", "tamanho", "batch"])
+    for summary in summaries:
+        for item in speedups:
+            if all(summary.get(k) == item.get(k) for k in ["teste", "tamanho", "batch"]) and summary.get("hardware") == "CUDA":
+                summary["speedup_cuda_vs_cpu"] = round(float(item["speedup_cuda_vs_cpu"]), 4) if item["speedup_cuda_vs_cpu"] != "" else ""
 
-    dispositivos = criar_dispositivos()
-
-    resumos = []
-    execucoes = []
-
-    for device in dispositivos:
-        for batch in BATCHES:
-            hardware = "CUDA" if device.type == "cuda" else "CPU"
-            print(f"\nRodando CNN em {hardware}, batch {batch}...")
-
-            try:
-                resumo, tempos = executar_cnn(device, batch)
-
-                resumos.append(resumo)
-                execucoes.extend(tempos)
-
-                print(
-                    f"OK | média: {resumo['tempo_medio_ms']:.4f} ms | "
-                    f"desvio: {resumo['tempo_desvio_ms']:.4f} ms | "
-                    f"VRAM pico: {resumo['gpu_peak_mb']:.2f} MB"
-                )
-
-            except RuntimeError as erro:
-                mensagem = str(erro).replace("\n", " ")
-
-                if device.type == "cuda":
-                    limpar_cuda()
-
-                resumo = {
-                    "teste": "torch_cnn_sintetico",
-                    "hardware": hardware,
-                    "tamanho": f"{CANAIS}x{ALTURA}x{LARGURA}",
-                    "batch": batch,
-                    "repeticoes": 0,
-                    "tempo_medio_ms": "",
-                    "tempo_desvio_ms": "",
-                    "tempo_min_ms": "",
-                    "tempo_max_ms": "",
-                    "memoria_inicio_mb": "",
-                    "memoria_fim_mb": "",
-                    "gpu_peak_mb": "",
-                    "status": "erro",
-                    "observacao": mensagem[:250]
-                }
-
-                resumos.append(resumo)
-                print(f"ERRO | {resumo['observacao']}")
-
-    resumo_path = RAW / "benchmark_cnn_sintetico.csv"
-    execucoes_path = RAW / "benchmark_cnn_sintetico_execucoes.csv"
-
-    resumo_campos = [
-        "teste",
-        "hardware",
-        "tamanho",
-        "batch",
-        "repeticoes",
-        "tempo_medio_ms",
-        "tempo_desvio_ms",
-        "tempo_min_ms",
-        "tempo_max_ms",
-        "memoria_inicio_mb",
-        "memoria_fim_mb",
-        "gpu_peak_mb",
-        "status",
-        "observacao"
-    ]
-
-    execucoes_campos = [
-        "teste",
-        "hardware",
-        "tamanho",
-        "batch",
-        "repeticao",
-        "tempo_ms",
-        "memoria_ram_mb",
-        "gpu_peak_mb",
-        "status",
-        "observacao"
-    ]
-
-    salvar_csv(resumo_path, resumos, resumo_campos)
-    salvar_csv(execucoes_path, execucoes, execucoes_campos)
-
-    print(f"\nResumo salvo em: {resumo_path}")
-    print(f"Execuções individuais salvas em: {execucoes_path}")
+    write_csv(RAW / "benchmark_cnn_sintetico.csv", summaries)
+    write_csv(RAW / "benchmark_cnn_sintetico_execucoes.csv", details)
 
 
 if __name__ == "__main__":

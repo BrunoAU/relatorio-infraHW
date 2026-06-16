@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-06-16T14:34:44",
+  "sistema_operacional": {
+    "system": "Windows",
+    "release": "11",
+    "version": "10.0.26200",
+    "machine": "AMD64"
+  },
+  "python": {
+    "version": "3.14.3",
+    "executable": "C:\\Users\\user\\Desktop\\ia-local-bench\\ia-local-bench\\.venv\\Scripts\\python.exe"
+  },
+  "cpu": {
+    "nome": "Intel64 Family 6 Model 186 Stepping 3, GenuineIntel",
+    "nucleos_fisicos": 10,
+    "threads_logicas": 12,
+    "frequencia_mhz": {
+      "current": 1800.0,
+      "min": 0.0,
+      "max": 1800.0
+    }
+  },
+  "ram": {
+    "total_gb": 31.692
+  },
+  "gpu": [
+    {
+      "provider": "nvidia-smi",
+      "status": "ok",
+      "name": "NVIDIA GeForce MX570 A",
+      "memory_total": "2048 MiB",
+      "driver_version": "610.47"
+    }
+  ],
+  "torch": {
+    "installed": false,
+    "version": "not_available",
+    "cuda_available": false,
+    "cuda_device_count": 0,
+    "cuda_devices": [],
+    "cuda_version_pytorch": "not_available",
+    "error": "[Errno 13] Permission denied: 'C:\\\\Users\\\\user\\\\Desktop\\\\ia-local-bench\\\\ia-local-bench\\\\.deps\\\\typing_extensions.py'"
+  },
+  "pacotes_principais": {
+    "numpy": null,
+    "pandas": null,
+    "psutil": null,
+    "matplotlib": null,
+    "torch": null,
+    "torchvision": null,
+    "requests": null
+  },
+  "npu": {
+    "medida_automaticamente": false,
+    "observacao": "NPU não é medida automaticamente neste projeto. O estudo experimental atual cobre CPU e CUDA/GPU quando disponíveis."
+  }
+}

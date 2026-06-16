@@ -1,245 +1,204 @@
-import csv
 import gc
-import statistics
 import time
-from pathlib import Path
 
-import psutil
+from bootstrap import ensure_local_deps
+
+ensure_local_deps()
+
 import torch
-
-ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "dados" / "raw" / "benchmark_torch_cpu_gpu.csv"
-OUT_DETAILED = ROOT / "dados" / "raw" / "benchmark_torch_cpu_gpu_execucoes.csv"
-
-SIZES = [512, 1024, 1536, 2048]
-BATCHES = [1, 8, 32]
-REPETITIONS = 10
-WARMUP = 3
-
-
-def memory_mb():
-    process = psutil.Process()
-    return process.memory_info().rss / (1024 ** 2)
-
-
-def sync_if_needed(device):
-    if device.type == "cuda":
-        torch.cuda.synchronize(device)
+from common import (
+    RAW,
+    calculate_speedups,
+    clear_cuda_cache,
+    cuda_peak_mb,
+    cuda_sync,
+    ensure_dirs,
+    load_config,
+    process_memory_mb,
+    reset_cuda_peak,
+    set_seeds,
+    throughput_items_per_second,
+    timing_stats_ms,
+    write_csv,
+)
 
 
-def clear_cuda_if_needed(device):
-    if device.type == "cuda":
-        torch.cuda.empty_cache()
-
-
-def reset_cuda_peak_if_needed(device):
-    if device.type == "cuda":
-        torch.cuda.reset_peak_memory_stats(device)
-
-
-def get_cuda_peak_mb(device):
-    if device.type != "cuda":
-        return "na"
-
-    return round(torch.cuda.max_memory_allocated(device) / (1024 ** 2), 2)
-
-
-def get_devices():
-    devices = [torch.device("cpu")]
-
+def devices():
+    result = [torch.device("cpu")]
     if torch.cuda.is_available():
-        devices.append(torch.device("cuda"))
-
-    return devices
-
-
-def calculate_stats(times):
-    times_ms = [value * 1000 for value in times]
-
-    return {
-        "tempo_medio_ms": round(statistics.mean(times_ms), 4),
-        "tempo_desvio_ms": round(statistics.stdev(times_ms), 4) if len(times_ms) > 1 else 0.0,
-        "tempo_min_ms": round(min(times_ms), 4),
-        "tempo_max_ms": round(max(times_ms), 4),
-    }
+        result.append(torch.device("cuda"))
+    return result
 
 
-def run_matmul(device, size):
+def run_matmul(device, size, repetitions, warmups):
+    hardware = device.type.upper()
     a = torch.randn((size, size), dtype=torch.float32, device=device)
     b = torch.randn((size, size), dtype=torch.float32, device=device)
+    with torch.no_grad():
+        for _ in range(warmups):
+            _ = a @ b
+            cuda_sync(device)
+    reset_cuda_peak(device)
 
-    for _ in range(WARMUP):
-        _ = a @ b
-    sync_if_needed(device)
-
-    reset_cuda_peak_if_needed(device)
-
-    mem_before = memory_mb()
     times = []
-    detailed_rows = []
-
-    for repetition in range(1, REPETITIONS + 1):
-        sync_if_needed(device)
-        start = time.perf_counter()
-        c = a @ b
-        sync_if_needed(device)
-        end = time.perf_counter()
-
-        elapsed = end - start
-        times.append(elapsed)
-        detailed_rows.append({
-            "teste": "torch_matmul",
-            "hardware": device.type.upper(),
-            "tamanho": size,
-            "batch": "na",
-            "repeticao": repetition,
-            "tempo_ms": round(elapsed * 1000, 4),
-            "observacao": "Execução individual de multiplicação de matrizes float32 com PyTorch",
-        })
-
-        _ = float(c[0, 0].detach().cpu())
-
-    mem_after = memory_mb()
-    gpu_peak_mb = get_cuda_peak_mb(device)
-    stats = calculate_stats(times)
-
-    del a
-    del b
-    del c
-    gc.collect()
-    clear_cuda_if_needed(device)
+    details = []
+    mem_before = process_memory_mb()
+    status = "ok"
+    observation = "Multiplicação de matrizes float32 com PyTorch."
+    try:
+        with torch.no_grad():
+            for repetition in range(1, repetitions + 1):
+                cuda_sync(device)
+                start = time.perf_counter()
+                c = a @ b
+                cuda_sync(device)
+                elapsed = time.perf_counter() - start
+                _ = float(c[0, 0].detach().cpu())
+                times.append(elapsed)
+                details.append(
+                    {
+                        "teste": "torch_matmul",
+                        "hardware": hardware,
+                        "tamanho": size,
+                        "batch": "na",
+                        "repeticao": repetition,
+                        "tempo_ms": round(elapsed * 1000, 4),
+                        "memoria_ram_mb": round(process_memory_mb(), 2),
+                        "gpu_peak_mb": cuda_peak_mb(device),
+                        "status": status,
+                        "observacao": observation,
+                    }
+                )
+    except RuntimeError as exc:
+        status = "erro"
+        observation = str(exc).replace("\n", " ")[:250]
 
     summary = {
         "teste": "torch_matmul",
-        "hardware": device.type.upper(),
+        "hardware": hardware,
         "tamanho": size,
         "batch": "na",
-        "repeticoes": REPETITIONS,
-        **stats,
+        "repeticoes": len(times),
+        **timing_stats_ms(times),
+        "throughput_itens_s": "",
+        "speedup_cuda_vs_cpu": "",
         "memoria_inicio_mb": round(mem_before, 2),
-        "memoria_fim_mb": round(mem_after, 2),
-        "gpu_peak_mb": gpu_peak_mb,
-        "observacao": "Multiplicação de matrizes float32 com PyTorch",
+        "memoria_fim_mb": round(process_memory_mb(), 2),
+        "gpu_peak_mb": cuda_peak_mb(device),
+        "status": status,
+        "observacao": observation,
     }
+    del a, b
+    if "c" in locals():
+        del c
+    clear_cuda_cache()
+    return summary, details
 
-    return summary, detailed_rows
 
-
-def run_mlp_inference(device, batch):
-    input_size = 1024
-    hidden_size = 2048
-    output_size = 512
-    layers = 4
-
-    modules = []
-    current_size = input_size
-
-    for _ in range(layers):
-        modules.append(torch.nn.Linear(current_size, hidden_size))
-        modules.append(torch.nn.ReLU())
-        current_size = hidden_size
-
-    modules.append(torch.nn.Linear(current_size, output_size))
-    model = torch.nn.Sequential(*modules).to(device)
+def run_mlp(device, batch, repetitions, warmups):
+    hardware = device.type.upper()
+    model = torch.nn.Sequential(
+        torch.nn.Linear(1024, 2048),
+        torch.nn.ReLU(),
+        torch.nn.Linear(2048, 2048),
+        torch.nn.ReLU(),
+        torch.nn.Linear(2048, 512),
+    ).to(device)
     model.eval()
-
-    x = torch.randn((batch, input_size), dtype=torch.float32, device=device)
-
+    x = torch.randn((batch, 1024), dtype=torch.float32, device=device)
     with torch.no_grad():
-        for _ in range(WARMUP):
+        for _ in range(warmups):
             _ = model(x)
-    sync_if_needed(device)
+            cuda_sync(device)
+    reset_cuda_peak(device)
 
-    reset_cuda_peak_if_needed(device)
-
-    mem_before = memory_mb()
     times = []
-    detailed_rows = []
+    details = []
+    mem_before = process_memory_mb()
+    status = "ok"
+    observation = "Inferência sintética MLP com entrada aleatória; mede desempenho, não acurácia."
+    try:
+        with torch.no_grad():
+            for repetition in range(1, repetitions + 1):
+                cuda_sync(device)
+                start = time.perf_counter()
+                y = model(x)
+                cuda_sync(device)
+                elapsed = time.perf_counter() - start
+                _ = float(y[0, 0].detach().cpu())
+                times.append(elapsed)
+                details.append(
+                    {
+                        "teste": "torch_mlp_inference",
+                        "hardware": hardware,
+                        "tamanho": "mlp_1024_2048x2_512",
+                        "batch": batch,
+                        "repeticao": repetition,
+                        "tempo_ms": round(elapsed * 1000, 4),
+                        "memoria_ram_mb": round(process_memory_mb(), 2),
+                        "gpu_peak_mb": cuda_peak_mb(device),
+                        "status": status,
+                        "observacao": observation,
+                    }
+                )
+    except RuntimeError as exc:
+        status = "erro"
+        observation = str(exc).replace("\n", " ")[:250]
 
-    with torch.no_grad():
-        for repetition in range(1, REPETITIONS + 1):
-            sync_if_needed(device)
-            start = time.perf_counter()
-            y = model(x)
-            sync_if_needed(device)
-            end = time.perf_counter()
-
-            elapsed = end - start
-            times.append(elapsed)
-            detailed_rows.append({
-                "teste": "torch_mlp_inference",
-                "hardware": device.type.upper(),
-                "tamanho": "mlp_1024_2048x4_512",
-                "batch": batch,
-                "repeticao": repetition,
-                "tempo_ms": round(elapsed * 1000, 4),
-                "observacao": "Execução individual de inferência local em MLP sintético com PyTorch",
-            })
-
-            _ = float(y[0, 0].detach().cpu())
-
-    mem_after = memory_mb()
-    gpu_peak_mb = get_cuda_peak_mb(device)
-    stats = calculate_stats(times)
-
-    del model
-    del x
-    del y
-    gc.collect()
-    clear_cuda_if_needed(device)
-
+    stats = timing_stats_ms(times)
     summary = {
         "teste": "torch_mlp_inference",
-        "hardware": device.type.upper(),
-        "tamanho": "mlp_1024_2048x4_512",
+        "hardware": hardware,
+        "tamanho": "mlp_1024_2048x2_512",
         "batch": batch,
-        "repeticoes": REPETITIONS,
+        "repeticoes": len(times),
         **stats,
+        "throughput_itens_s": throughput_items_per_second(batch, stats["tempo_medio_ms"]),
+        "speedup_cuda_vs_cpu": "",
         "memoria_inicio_mb": round(mem_before, 2),
-        "memoria_fim_mb": round(mem_after, 2),
-        "gpu_peak_mb": gpu_peak_mb,
-        "observacao": "Inferência local em MLP sintético com PyTorch",
+        "memoria_fim_mb": round(process_memory_mb(), 2),
+        "gpu_peak_mb": cuda_peak_mb(device),
+        "status": status,
+        "observacao": observation,
     }
-
-    return summary, detailed_rows
-
-
-def write_csv(path, rows):
-    if len(rows) == 0:
-        return
-
-    with path.open("w", newline="", encoding="utf-8") as file:
-        writer = csv.DictWriter(file, fieldnames=rows[0].keys())
-        writer.writeheader()
-        writer.writerows(rows)
+    del model, x
+    if "y" in locals():
+        del y
+    clear_cuda_cache()
+    return summary, details
 
 
 def main():
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    summary_rows = []
-    detailed_rows = []
-    devices = get_devices()
+    ensure_dirs()
+    config = load_config()
+    set_seeds(int(config.get("seed", 42)))
+    repetitions = int(config.get("repetitions", 3))
+    warmups = int(config.get("warmups", 1))
+    sizes = config.get("matrix_sizes", [512, 1024])
+    batches = config.get("batches", [1, 8])
 
-    for device in devices:
-        print(f"Dispositivo PyTorch detectado: {device}")
+    summaries = []
+    details = []
+    for device in devices():
+        for size in sizes:
+            print(f"PyTorch matmul {device} {size}x{size}")
+            summary, rows = run_matmul(device, int(size), repetitions, warmups)
+            summaries.append(summary)
+            details.extend(rows)
+        for batch in batches:
+            print(f"PyTorch MLP {device} batch {batch}")
+            summary, rows = run_mlp(device, int(batch), repetitions, warmups)
+            summaries.append(summary)
+            details.extend(rows)
 
-        for size in SIZES:
-            print(f"Rodando PyTorch matmul em {device}, tamanho {size}x{size}, com {REPETITIONS} repetições...")
-            summary, details = run_matmul(device, size)
-            summary_rows.append(summary)
-            detailed_rows.extend(details)
+    speedups = calculate_speedups(summaries, ["teste", "tamanho", "batch"])
+    for summary in summaries:
+        for item in speedups:
+            if all(summary.get(k) == item.get(k) for k in ["teste", "tamanho", "batch"]) and summary.get("hardware") == "CUDA":
+                summary["speedup_cuda_vs_cpu"] = round(float(item["speedup_cuda_vs_cpu"]), 4) if item["speedup_cuda_vs_cpu"] != "" else ""
 
-        for batch in BATCHES:
-            print(f"Rodando PyTorch MLP em {device}, batch {batch}, com {REPETITIONS} repetições...")
-            summary, details = run_mlp_inference(device, batch)
-            summary_rows.append(summary)
-            detailed_rows.extend(details)
-
-    write_csv(OUT, summary_rows)
-    write_csv(OUT_DETAILED, detailed_rows)
-
-    print(f"Benchmark PyTorch CPU/GPU salvo em: {OUT}")
-    print(f"Execuções individuais PyTorch salvas em: {OUT_DETAILED}")
+    write_csv(RAW / "benchmark_torch_cpu_gpu.csv", summaries)
+    write_csv(RAW / "benchmark_torch_cpu_gpu_execucoes.csv", details)
 
 
 if __name__ == "__main__":

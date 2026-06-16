@@ -1,208 +1,157 @@
-from pathlib import Path
-import csv
-import statistics
 import time
 
-import psutil
+from bootstrap import ensure_local_deps
+
+ensure_local_deps()
+
 import torch
+from common import (
+    RAW,
+    clear_cuda_cache,
+    cuda_peak_mb,
+    cuda_sync,
+    ensure_dirs,
+    load_config,
+    process_memory_mb,
+    reset_cuda_peak,
+    set_seeds,
+    timing_stats_ms,
+    write_csv,
+)
 
 
-ROOT = Path(__file__).resolve().parents[1]
-RAW = ROOT / "dados" / "raw"
-
-TAMANHOS = [2560, 3072, 4096]
-REPETICOES = 10
-AQUECIMENTOS = 2
-
-
-def memoria_ram_mb():
-    processo = psutil.Process()
-    return processo.memory_info().rss / (1024 ** 2)
-
-
-def sincronizar_cuda():
-    if torch.cuda.is_available():
-        torch.cuda.synchronize()
-
-
-def limpar_cuda():
-    if torch.cuda.is_available():
-        torch.cuda.empty_cache()
-        torch.cuda.reset_peak_memory_stats()
-
-
-def executar_matmul_cuda(tamanho):
+def run_size(size, repetitions, warmups):
     if not torch.cuda.is_available():
-        raise RuntimeError("CUDA não está disponível neste ambiente.")
-
-    device = torch.device("cuda")
-
-    limpar_cuda()
-
-    try:
-        a = torch.randn((tamanho, tamanho), device=device)
-        b = torch.randn((tamanho, tamanho), device=device)
-
-        for _ in range(AQUECIMENTOS):
-            c = torch.matmul(a, b)
-            sincronizar_cuda()
-
-        tempos = []
-        memoria_inicio = memoria_ram_mb()
-
-        for repeticao in range(1, REPETICOES + 1):
-            limpar_cuda()
-
-            inicio = time.perf_counter()
-            c = torch.matmul(a, b)
-            sincronizar_cuda()
-            fim = time.perf_counter()
-
-            tempo_ms = (fim - inicio) * 1000
-            gpu_peak_mb = torch.cuda.max_memory_allocated() / (1024 ** 2)
-
-            tempos.append({
-                "teste": "limite_matmul_cuda",
-                "hardware": "CUDA",
-                "tamanho": tamanho,
-                "batch": "",
-                "repeticao": repeticao,
-                "tempo_ms": tempo_ms,
-                "memoria_ram_mb": memoria_ram_mb(),
-                "gpu_peak_mb": gpu_peak_mb,
-                "status": "ok",
-                "observacao": "teste de limite de matriz em GPU"
-            })
-
-        memoria_fim = memoria_ram_mb()
-        tempo_lista = [linha["tempo_ms"] for linha in tempos]
-        gpu_lista = [linha["gpu_peak_mb"] for linha in tempos]
-
-        resumo = {
+        return {
             "teste": "limite_matmul_cuda",
             "hardware": "CUDA",
-            "tamanho": tamanho,
-            "batch": "",
-            "repeticoes": REPETICOES,
-            "tempo_medio_ms": statistics.mean(tempo_lista),
-            "tempo_desvio_ms": statistics.stdev(tempo_lista) if len(tempo_lista) > 1 else 0.0,
-            "tempo_min_ms": min(tempo_lista),
-            "tempo_max_ms": max(tempo_lista),
-            "memoria_inicio_mb": memoria_inicio,
-            "memoria_fim_mb": memoria_fim,
-            "gpu_peak_mb": max(gpu_lista),
-            "status": "ok",
-            "observacao": "teste de limite de matriz em GPU"
-        }
-
-        del a
-        del b
-        del c
-        limpar_cuda()
-
-        return resumo, tempos
-
-    except RuntimeError as erro:
-        limpar_cuda()
-
-        mensagem = str(erro).replace("\n", " ")
-        resumo = {
-            "teste": "limite_matmul_cuda",
-            "hardware": "CUDA",
-            "tamanho": tamanho,
-            "batch": "",
+            "tamanho": size,
+            "batch": "na",
             "repeticoes": 0,
             "tempo_medio_ms": "",
+            "tempo_mediana_ms": "",
             "tempo_desvio_ms": "",
             "tempo_min_ms": "",
             "tempo_max_ms": "",
+            "tempo_p95_ms": "",
+            "throughput_itens_s": "",
+            "speedup_cuda_vs_cpu": "",
             "memoria_inicio_mb": "",
             "memoria_fim_mb": "",
             "gpu_peak_mb": "",
-            "status": "erro",
-            "observacao": mensagem[:250]
-        }
+            "status": "skip",
+            "observacao": "CUDA nao disponivel neste ambiente.",
+        }, []
 
-        return resumo, []
+    device = torch.device("cuda")
+    clear_cuda_cache()
+    reset_cuda_peak(device)
+    status = "ok"
+    observation = "Teste de limite da GPU com multiplicacao de matrizes em CUDA."
+    details = []
+    times = []
+    mem_before = process_memory_mb()
+    try:
+        a = torch.randn((size, size), device=device)
+        b = torch.randn((size, size), device=device)
+        for _ in range(warmups):
+            _ = a @ b
+            cuda_sync(device)
+        for repetition in range(1, repetitions + 1):
+            cuda_sync(device)
+            start = time.perf_counter()
+            c = a @ b
+            cuda_sync(device)
+            elapsed = time.perf_counter() - start
+            _ = float(c[0, 0].detach().cpu())
+            times.append(elapsed)
+            details.append(
+                {
+                    "teste": "limite_matmul_cuda",
+                    "hardware": "CUDA",
+                    "tamanho": size,
+                    "batch": "na",
+                    "repeticao": repetition,
+                    "tempo_ms": round(elapsed * 1000, 4),
+                    "memoria_ram_mb": round(process_memory_mb(), 2),
+                    "gpu_peak_mb": cuda_peak_mb(device),
+                    "status": status,
+                    "observacao": observation,
+                }
+            )
+    except RuntimeError as exc:
+        status = "erro"
+        observation = str(exc).replace("\n", " ")[:250]
 
-
-def salvar_csv(path, linhas, campos):
-    with open(path, "w", newline="", encoding="utf-8") as arquivo:
-        writer = csv.DictWriter(arquivo, fieldnames=campos)
-        writer.writeheader()
-        writer.writerows(linhas)
+    st = timing_stats_ms(times)
+    summary = {
+        "teste": "limite_matmul_cuda",
+        "hardware": "CUDA",
+        "tamanho": size,
+        "batch": "na",
+        "repeticoes": len(times),
+        **st,
+        "throughput_itens_s": "",
+        "speedup_cuda_vs_cpu": "",
+        "memoria_inicio_mb": round(mem_before, 2),
+        "memoria_fim_mb": round(process_memory_mb(), 2),
+        "gpu_peak_mb": cuda_peak_mb(device),
+        "status": status,
+        "observacao": observation,
+    }
+    if "a" in locals():
+        del a
+    if "b" in locals():
+        del b
+    if "c" in locals():
+        del c
+    clear_cuda_cache()
+    return summary, details
 
 
 def main():
-    RAW.mkdir(parents=True, exist_ok=True)
+    ensure_dirs()
+    config = load_config()
+    set_seeds(int(config.get("seed", 42)))
+    repetitions = int(config.get("repetitions", 3))
+    warmups = int(config.get("warmups", 1))
+    sizes = [int(x) for x in config.get("gpu_limit_matrix_sizes", [1536, 2048, 2560])]
+    if not config.get("run_gpu_limit", True):
+        sizes = []
 
-    print("Teste de limite da GPU em multiplicação de matrizes")
-    print(f"CUDA disponível: {torch.cuda.is_available()}")
+    summaries = []
+    details = []
+    if not sizes:
+        summaries.append(
+            {
+                "teste": "limite_matmul_cuda",
+                "hardware": "CUDA",
+                "tamanho": "config_disabled",
+                "batch": "na",
+                "repeticoes": 0,
+                "tempo_medio_ms": "",
+                "tempo_mediana_ms": "",
+                "tempo_desvio_ms": "",
+                "tempo_min_ms": "",
+                "tempo_max_ms": "",
+                "tempo_p95_ms": "",
+                "throughput_itens_s": "",
+                "speedup_cuda_vs_cpu": "",
+                "memoria_inicio_mb": "",
+                "memoria_fim_mb": "",
+                "gpu_peak_mb": "",
+                "status": "skip",
+                "observacao": "Teste de limite da GPU desativado no benchmark_config.json.",
+            }
+        )
+    for size in sizes:
+        print(f"Limite GPU {size}x{size}")
+        summary, rows = run_size(size, repetitions, warmups)
+        summaries.append(summary)
+        details.extend(rows)
 
-    if torch.cuda.is_available():
-        print(f"GPU detectada: {torch.cuda.get_device_name(0)}")
-    else:
-        print("CUDA indisponível. O teste será encerrado.")
-        return
-
-    resumos = []
-    execucoes = []
-
-    for tamanho in TAMANHOS:
-        print(f"\nRodando teste CUDA com matriz {tamanho}x{tamanho}...")
-
-        resumo, tempos = executar_matmul_cuda(tamanho)
-
-        resumos.append(resumo)
-        execucoes.extend(tempos)
-
-        if resumo["status"] == "ok":
-            print(
-                f"OK | média: {resumo['tempo_medio_ms']:.4f} ms | "
-                f"desvio: {resumo['tempo_desvio_ms']:.4f} ms | "
-                f"VRAM pico: {resumo['gpu_peak_mb']:.2f} MB"
-            )
-        else:
-            print(f"ERRO | {resumo['observacao']}")
-
-    resumo_path = RAW / "benchmark_limite_gpu.csv"
-    execucoes_path = RAW / "benchmark_limite_gpu_execucoes.csv"
-
-    resumo_campos = [
-        "teste",
-        "hardware",
-        "tamanho",
-        "batch",
-        "repeticoes",
-        "tempo_medio_ms",
-        "tempo_desvio_ms",
-        "tempo_min_ms",
-        "tempo_max_ms",
-        "memoria_inicio_mb",
-        "memoria_fim_mb",
-        "gpu_peak_mb",
-        "status",
-        "observacao"
-    ]
-
-    execucoes_campos = [
-        "teste",
-        "hardware",
-        "tamanho",
-        "batch",
-        "repeticao",
-        "tempo_ms",
-        "memoria_ram_mb",
-        "gpu_peak_mb",
-        "status",
-        "observacao"
-    ]
-
-    salvar_csv(resumo_path, resumos, resumo_campos)
-    salvar_csv(execucoes_path, execucoes, execucoes_campos)
-
-    print(f"\nResumo salvo em: {resumo_path}")
-    print(f"Execuções individuais salvas em: {execucoes_path}")
+    write_csv(RAW / "benchmark_limite_gpu.csv", summaries)
+    write_csv(RAW / "benchmark_limite_gpu_execucoes.csv", details)
 
 
 if __name__ == "__main__":

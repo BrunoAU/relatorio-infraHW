@@ -1,0 +1,8 @@
+modelo,classificacao_viabilidade,tarefas,status,tempo_total_ms_media,tokens_por_segundo_media,taxa_falha,ram_processo_mb_pico_medio,gpu_media_media,vram_mb_pico_medio
+gemma3:1b,viavel com espera,9,ok,6653.3729,38.4173,0.0,524.89,16.75,644.63
+llama3.2:1b,viavel com espera,9,ok,5578.6253,33.2489,0.0,525.11,11.88,623.0
+llama3.2:3b,viavel com espera,9,ok,9920.3832,15.9167,0.0,525.31,6.47,623.89
+gemma3:4b,pesado para o hardware testado,9,ok,17202.7604,10.397,0.0,525.6,8.88,182.11
+llama3:8b,pesado para o hardware testado,9,ok,32594.6648,3.8413,0.0,432.28,1.72,611.0
+qwen3.5:latest,pesado para o hardware testado,9,ok,38321.3715,3.7421,0.0,280.24,0.56,197.89
+qwen2.5-coder:14b,pesado para o hardware testado,9,ok,35903.7294,3.3405,0.0,215.31,0.0,207.0

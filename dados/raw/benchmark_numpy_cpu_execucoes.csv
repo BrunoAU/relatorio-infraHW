@@ -1,41 +1,41 @@
-teste,hardware,tamanho,batch,repeticao,tempo_ms,observacao
-numpy_matmul_cpu,CPU,512,na,1,2.5239,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,512,na,2,2.4345,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,512,na,3,1.8347,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,512,na,4,1.8681,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,512,na,5,1.8341,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,512,na,6,1.4515,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,512,na,7,2.2743,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,512,na,8,2.1251,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,512,na,9,1.6769,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,512,na,10,1.8846,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1024,na,1,13.4805,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1024,na,2,12.8234,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1024,na,3,13.6584,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1024,na,4,10.2181,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1024,na,5,8.1388,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1024,na,6,9.1603,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1024,na,7,14.5349,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1024,na,8,12.1124,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1024,na,9,10.3533,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1024,na,10,14.2616,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1536,na,1,26.3592,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1536,na,2,28.9123,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1536,na,3,40.9702,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1536,na,4,43.9726,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1536,na,5,29.0758,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1536,na,6,30.8234,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1536,na,7,41.6557,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1536,na,8,40.5286,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1536,na,9,31.6653,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,1536,na,10,29.7569,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,2048,na,1,67.859,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,2048,na,2,84.4369,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,2048,na,3,82.654,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,2048,na,4,86.5867,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,2048,na,5,83.6893,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,2048,na,6,62.6958,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,2048,na,7,69.6485,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,2048,na,8,77.418,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,2048,na,9,67.242,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
-numpy_matmul_cpu,CPU,2048,na,10,71.9177,Execução individual de multiplicação de matrizes float32 em CPU com NumPy
+teste,hardware,tamanho,batch,repeticao,tempo_ms,memoria_ram_mb,gpu_peak_mb,status,observacao
+numpy_matmul_cpu,CPU,512,na,1,2.8879,519.71,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,512,na,2,3.2677,519.75,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,512,na,3,7.2059,519.75,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,512,na,4,3.7429,519.75,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,512,na,5,4.7742,519.75,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,512,na,6,2.1769,519.75,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,512,na,7,2.562,519.75,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,512,na,8,2.5338,519.75,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,512,na,9,2.5581,519.75,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,512,na,10,2.0939,519.75,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1024,na,1,7.8425,531.68,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1024,na,2,8.8002,531.68,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1024,na,3,11.064,531.68,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1024,na,4,14.2048,531.68,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1024,na,5,8.2387,531.68,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1024,na,6,8.2238,531.68,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1024,na,7,8.402,531.68,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1024,na,8,12.6636,531.68,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1024,na,9,8.2647,531.68,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1024,na,10,14.2624,531.68,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1536,na,1,31.7809,547.43,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1536,na,2,41.7266,547.43,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1536,na,3,50.3087,547.43,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1536,na,4,48.1669,547.43,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1536,na,5,32.7088,547.43,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1536,na,6,57.6615,547.43,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1536,na,7,47.0542,547.43,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1536,na,8,35.9178,547.43,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1536,na,9,34.4685,547.43,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,1536,na,10,34.5568,547.43,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,2048,na,1,74.604,569.18,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,2048,na,2,78.0716,569.18,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,2048,na,3,70.8477,569.18,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,2048,na,4,81.697,569.18,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,2048,na,5,75.1698,569.18,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,2048,na,6,89.779,569.18,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,2048,na,7,103.2075,569.18,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,2048,na,8,106.9844,569.18,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,2048,na,9,106.3446,569.18,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
+numpy_matmul_cpu,CPU,2048,na,10,77.5091,569.18,na,ok,Multiplicação de matrizes float32 em CPU com NumPy.
